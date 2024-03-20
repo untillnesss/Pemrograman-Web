@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Riwayat Hidup (NPM)</title>
+
+    <style>
+        * {
+            font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+            font-size: 25px;
+            margin: 0;
+        }
+
+        body {
+            display: flex;
+            padding: 10px;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        table {
+            width: 70%;
+        }
+
+        table,
+        td,
+        th {
+            border: 2px solid black;
+            border-collapse: collapse;
+            padding: 10px;
+        }
+
+        th {
+            text-align: left;
+        }
+
+        .main-title {
+            text-align: center;
+        }
+
+        ol {
+            margin: 0;
+        }
+
+        h2{
+            margin-bottom: 10px;
+        }
+
+        .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .no-padding {
+            padding: 0 !important;
+        }
+
+        .table-biodata tr:nth-child(even) {
+            background-color: yellow;
+        }
+
+        .table-biodata tr:nth-child(odd) {
+            background-color: orange;
+        }
+
+        .table-biodata tr:first-child {
+            background-color: blue;
+        }
+
+        .table-layout {
+            background-color: grey;
+        }
+
+        .table-layout td {
+            padding: 30px;
+        }
+
+        .table-left {
+            background-color: blue;
+        }
+
+        .table-right {
+            background-color: green;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Dengan menggunakan tag-tag HTML, buat tampilan persis seperti dibawah ini :</h2>
+    <table class="table-biodata">
+        <tr>
+            <th colspan="3" class="main-title">DAFTAR RIWAYAT HIDUP (1412 22 0068)</th>
+        </tr>
+        <tr>
+            <th>NAMA LENGKAP</th>
+            <td>:</td>
+            <td>MUHAMMAD ABDULLAH SAID</td>
+        </tr>
+        <tr>
+            <th>NPM</th>
+            <td>:</td>
+            <td>1412 22 0068</td>
+        </tr>
+        <tr>
+            <th>KELAS</th>
+            <td>:</td>
+            <td>2022 A</td>
+        </tr>
+        <tr>
+            <th>TTL</th>
+            <td>:</td>
+            <td>REMBANG, 18 FEBRUARI 2002</td>
+        </tr>
+        <tr>
+            <th>ALAMAT</th>
+            <td>:</td>
+            <td>SENDANG MULYO, SARANG - REMBANG</td>
+        </tr>
+        <tr>
+            <th>RIWAYAT PENDIDIKAN</th>
+            <td>:</td>
+            <td>
+                <ol type="I">
+                    <li>Pendidikan Formal
+                        <ol>
+                            <li>MI AL ANWAR SARANG</li>
+                            <li>MTS SUNAN BONANG SARANG</li>
+                            <li>SMK UMAR FATAH REMBANG</li>
+                        </ol>
+                    </li>
+                    <br>
+                    <li>Non Formal
+                        <ol>
+                            <li>MADRASAH DINIYAH</li>
+                            <li>BOOTCAMP MAJAPAHIT 2020</li>
+                        </ol>
+                    </li>
+                </ol>
+            </td>
+        </tr>
+        <tr>
+            <th>EMAIL</th>
+            <td>:</td>
+            <td>mas.said3000@gmail.com</td>
+        </tr>
+
+    </table>
+
+    <!-- ============================================================================== -->
+    <br>
+    <!-- ============================================================================== -->
+
+    <h2>Buatlah nested tabel seperti gambar di bawah :</h2>
+    <table class="table-layout">
+        <tr>
+            <td colspan="2"></td>
+        </tr>
+        <tr>
+            <td class="no-padding">
+                <div class="center">
+                    <table class="table-left">
+                        <tr>
+                            <td rowspan="3"></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+            <td class="no-padding">
+                <div class="center">
+                    <table class="table-right">
+                        <tr>
+                            <td colspan="3"></td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2"></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+</body>
+
+</html>
