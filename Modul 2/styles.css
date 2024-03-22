@@ -1,0 +1,65 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+table,
+td,
+th {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+.wrapper-table {
+    width: 100%;
+}
+
+.title {
+    font-size: 50px;
+}
+
+.title-padding {
+    padding: 40px 0px;
+}
+
+.sidebar {
+    width: 30%;
+    background-color: orange;
+}
+
+.content {
+    width: 70%;
+}
+
+.sidebar-table {
+    width: 100%;
+    text-align: center;
+    font-size: 30px;
+    height: 80vh;
+}
+
+.content {
+    padding: 20px;
+    vertical-align: top;
+}
+
+.content-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+}
+
+.d-flex {
+    display: flex;
+    flex-direction: column;
+}
+
+.d-flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.mr {
+    margin-right: 10px;
+}
