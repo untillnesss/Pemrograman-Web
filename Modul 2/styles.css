@@ -72,6 +72,12 @@ th {
     margin-top: 20px;
 }
 
+.book-images-detail {
+    width: 280px;
+    height: 380px;
+    margin-right: 20px;
+}
+
 .table-book,
 .table-book td {
     border: none;
