@@ -26,6 +26,7 @@ th {
 .sidebar {
     width: 30%;
     background-color: orange;
+    vertical-align: top;
 }
 
 .content {
@@ -36,7 +37,7 @@ th {
     width: 100%;
     text-align: center;
     font-size: 30px;
-    height: 80vh;
+    height: 70vh;
 }
 
 .content {
@@ -62,4 +63,20 @@ th {
 
 .mr {
     margin-right: 10px;
+}
+
+.book-images {
+    width: 240px;
+    height: 320px;
+    margin-bottom: 12px;
+    margin-top: 20px;
+}
+
+.table-book,
+.table-book td {
+    border: none;
+}
+
+.table-book td {
+    width: 33%;
 }
