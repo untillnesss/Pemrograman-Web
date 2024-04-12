@@ -22,55 +22,55 @@ require 'MasterData.php';
             <th>NAMA</th>
             <td>:</td>
             <td>
-                <input type="text" name="name" placeholder="Masukkan Nama Kamu" form="form-pendaftaran">
+                <input type="text" name="name" placeholder="Masukkan Nama Kamu" form="form-pendaftaran" required>
             </td>
         </tr>
         <tr>
             <th>TEMPAT LAHIR</th>
             <td>:</td>
             <td>
-                <input type="text" name="placeBirth" placeholder="Masukkan Tempat Lahir Kamu" form="form-pendaftaran">
+                <input type="text" name="placeBirth" placeholder="Masukkan Tempat Lahir Kamu" form="form-pendaftaran" required>
             </td>
         </tr>
         <tr>
             <th>TANGGAL LAHIR</th>
             <td>:</td>
             <td class="flex">
-                <input type="date" name="birthDate" form="form-pendaftaran">
+                <input type="date" name="birthDate" form="form-pendaftaran" required>
             </td>
         </tr>
         <tr>
             <th>JENIS KELAMIN</th>
             <td>:</td>
             <td class="flex">
-                <input type="radio" name="gender" value="m" id="gender-m" form="form-pendaftaran"> <label for="gender-m">Laki-laki</label>
+                <input type="radio" name="gender" value="m" id="gender-m" form="form-pendaftaran" required> <label for="gender-m">Laki-laki</label>
                 <hr>
-                <input type="radio" name="gender" value="f" id="gender-f" form="form-pendaftaran"> <label for="gender-f">Perempuan</label>
+                <input type="radio" name="gender" value="f" id="gender-f" form="form-pendaftaran" required> <label for="gender-f">Perempuan</label>
             </td>
         </tr>
         <tr>
             <th>ALAMAT</th>
             <td>:</td>
             <td>
-                <textarea name="address" id="address" cols="30" rows="10" placeholder="Masukkan Alamat Kamu" form="form-pendaftaran"></textarea>
+                <textarea name="address" id="address" cols="30" rows="10" placeholder="Masukkan Alamat Kamu" form="form-pendaftaran" required></textarea>
             </td>
         </tr>
         <tr>
             <th>ASAL SEKOLAH</th>
             <td>:</td>
             <td class="flex">
-                <input type="radio" name="school" value="school-sma" id="school-sma" form="form-pendaftaran"> <label for="school-sma">SMA</label>
+                <input type="radio" name="school" value="school-sma" id="school-sma" form="form-pendaftaran" required> <label for="school-sma">SMA</label>
                 <hr>
-                <input type="radio" name="school" value="school-smk" id="school-smk" form="form-pendaftaran"> <label for="school-smk">SMK</label>
+                <input type="radio" name="school" value="school-smk" id="school-smk" form="form-pendaftaran" required> <label for="school-smk">SMK</label>
                 <hr>
-                <input type="radio" name="school" value="school-ma" id="school-ma" form="form-pendaftaran"> <label for="school-ma">MA</label>
+                <input type="radio" name="school" value="school-ma" id="school-ma" form="form-pendaftaran" required> <label for="school-ma">MA</label>
             </td>
         </tr>
         <tr>
             <td></td>
             <td></td>
             <td>
-                <input type="text" name="schoolName" placeholder="Masukkan Nama Sekolah Kamu" form="form-pendaftaran">
+                <input type="text" name="schoolName" placeholder="Masukkan Nama Sekolah Kamu" form="form-pendaftaran" required>
             </td>
         </tr>
         <tr>
@@ -82,21 +82,21 @@ require 'MasterData.php';
             <td>Matematika</td>
             <td>:</td>
             <td>
-                <input type="number" name="score-mtk" placeholder="Masukkan Nilai" form="form-pendaftaran">
+                <input type="number" name="score-mtk" placeholder="Masukkan Nilai" form="form-pendaftaran" required>
             </td>
         </tr>
         <tr>
             <td>Bahasa Inggris</td>
             <td>:</td>
             <td>
-                <input type="number" name="score-inggris" placeholder="Masukkan Nilai" form="form-pendaftaran">
+                <input type="number" name="score-inggris" placeholder="Masukkan Nilai" form="form-pendaftaran" required>
             </td>
         </tr>
         <tr>
             <td>Bahasa Indonesia</td>
             <td>:</td>
             <td>
-                <input type="number" name="score-indonesia" placeholder="Masukkan Nilai" form="form-pendaftaran">
+                <input type="number" name="score-indonesia" placeholder="Masukkan Nilai" form="form-pendaftaran" required>
             </td>
         </tr>
         <tr>
@@ -112,7 +112,7 @@ require 'MasterData.php';
             </td>
             <td>:</td>
             <td>
-                <select name="jurusan-1" id="jurusan-1" form="form-pendaftaran">
+                <select name="jurusan-1" id="jurusan-1" form="form-pendaftaran" required>
                     <?php
                     foreach (MasterData::jurusan() as $key => $value) {
                         echo '<option value="' . $key . '">' . $value . '</option>';
@@ -129,7 +129,7 @@ require 'MasterData.php';
             </td>
             <td>:</td>
             <td>
-                <select name="jurusan-2" id="jurusan-2" form="form-pendaftaran">
+                <select name="jurusan-2" id="jurusan-2" form="form-pendaftaran" required>
                     <?php
                     foreach (MasterData::jurusan() as $key => $value) {
                         echo '<option value="' . $key . '">' . $value . '</option>';
@@ -142,12 +142,12 @@ require 'MasterData.php';
             <th>ALASAN MASUK UNIROW</th>
             <td>:</td>
             <td>
-                <textarea name="reason" id="reason" cols="30" rows="10" placeholder="Masukkan Alasan Kamu" form="form-pendaftaran"></textarea>
+                <textarea name="reason" id="reason" cols="30" rows="10" placeholder="Masukkan Alasan Kamu" form="form-pendaftaran" required></textarea>
             </td>
         </tr>
         <tr>
             <td colspan="3">
-                <input type="checkbox" id="check" form="form-pendaftaran"><label for="check">Dengan ini Saya menyatakan bahwa data yang diberikan sesuai dengan sebenarnya.</label>
+                <input type="checkbox" id="check" form="form-pendaftaran" required><label for="check">Dengan ini Saya menyatakan bahwa data yang diberikan sesuai dengan sebenarnya.</label>
             </td>
         </tr>
         <tr>
