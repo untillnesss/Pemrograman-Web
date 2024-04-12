@@ -36,27 +36,7 @@ require 'MasterData.php';
             <th>TANGGAL LAHIR</th>
             <td>:</td>
             <td class="flex">
-                <select name="dateBirth" form="form-pendaftaran">
-                    <?php
-                    for ($i = 1; $i <= 31; $i++) {
-                        echo '<option value="' . $i . '">' . $i . '</option>';
-                    }
-                    ?>
-                </select>
-                <select name="monthBirth" form="form-pendaftaran">
-                    <?php
-                    foreach (MasterData::months() as $index => $month) {
-                        echo '<option value="' . $index . '">' . $month . '</option>';
-                    }
-                    ?>
-                </select>
-                <select name="yearBirth" form="form-pendaftaran">
-                    <?php
-                    for ($i = 1900; $i <= 2100; $i++) {
-                        echo '<option value="' . $i . '">' . $i . '</option>';
-                    }
-                    ?>
-                </select>
+                <input type="date" name="birthDate" form="form-pendaftaran">
             </td>
         </tr>
         <tr>
