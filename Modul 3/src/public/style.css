@@ -1,0 +1,100 @@
+* {
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 25px;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+table {
+    width: 50%;
+}
+
+table,
+td,
+th {
+    /* border: 2px solid black; */
+    border-collapse: collapse;
+    padding: 10px;
+}
+
+th {
+    text-align: left;
+}
+
+.main-title {
+    text-align: center;
+}
+
+ol {
+    margin: 0;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.no-padding {
+    padding: 0 !important;
+}
+
+/* .table-biodata tr:nth-child(even) {
+    background-color: yellow;
+}
+
+.table-biodata tr:nth-child(odd) {
+    background-color: orange;
+}
+
+.table-biodata tr:first-child {
+    background-color: blue;
+} */
+
+.table-layout {
+    background-color: grey;
+}
+
+.table-layout td {
+    padding: 30px;
+}
+
+.table-left {
+    background-color: blue;
+}
+
+.table-right {
+    background-color: green;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+textarea,
+select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #494949;
+    box-sizing: border-box;
+}
+
+textarea {
+    height: 100px;
+}
+
+.flex {
+    display: flex;
+    gap: 10px;
+}
