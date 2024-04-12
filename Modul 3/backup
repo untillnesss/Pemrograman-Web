@@ -1,0 +1,29 @@
+#!/bin/sh
+
+DELETE_DB_AFTER="+3d"
+WORK_DIR=/var/www/html/
+MEGA_WORK_DIR=/cbtku/
+NGINX_CONF=/etc/nginx/sites-enabled/cbtku-app
+
+STORAGE_PATH=$WORK_DIR"storage/app/public/"
+ENV_PATH=$WORK_DIR".env"
+
+DATENOW=$(date '+%Y-%m-%d_%H:%M:%S')
+SQL_FILE=~/db_$DATENOW.sql
+# =============================================================
+mega-login mas.said3000@gmail.com untillNess1013_Mega
+
+mega-put $STORAGE_PATH $MEGA_WORK_DIR
+mega-put $ENV_PATH $MEGA_WORK_DIR
+
+mega-put $NGINX_CONF $MEGA_WORK_DIR
+
+mysqldump --no-tablespaces -h $DB_HOST -u $DB_USERNAME --port=$DB_PORT --password="$DB_PASSWORD" $DB_DATABASE > $SQL_FILE
+mega-put $SQL_FILE $MEGA_WORK_DIR
+rm $SQL_FILE
+
+# mega-find $MEGA_WORK_DIR -l --pattern=db_*.sql --mtime=$DELETE_DB_AFTER | awk '{print $1}' | while read -r line ; do
+#     mega-rm -f $line
+# done
+
+mega-logout

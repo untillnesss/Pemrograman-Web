@@ -1,0 +1,43 @@
+FROM ubuntu:22.04
+
+# Latest releases available at https://github.com/aptible/supercronic/releases
+ENV SUPERCRONIC_URL=https://github.com/aptible/supercronic/releases/download/v0.2.27/supercronic-linux-amd64 \
+    SUPERCRONIC=supercronic-linux-amd64 \
+    SUPERCRONIC_SHA1SUM=7dadd4ac827e7bd60b386414dfefc898ae5b6c63
+
+ENV DEBIAN_FRONTEND noninteractive
+ENV TZ=Asia/Jakarta
+
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ >/etc/timezone
+
+RUN apt-get update
+RUN apt-get install -y \
+    bash \
+    curl \
+    vim
+
+RUN apt-get install -yq tzdata
+RUN ln -fs /usr/share/zoneinfo/$TZ /etc/localtime
+RUN dpkg-reconfigure -f noninteractive tzdata
+
+RUN apt-get install -y wget
+RUN wget https://mega.nz/linux/repo/xUbuntu_22.04/amd64/megacmd-xUbuntu_22.04_amd64.deb && apt install -y "$PWD/megacmd-xUbuntu_22.04_amd64.deb"
+
+RUN apt-get install -y mysql-client
+
+RUN apt-get -y autoremove
+RUN apt-get clean
+RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+RUN curl -fsSLO "$SUPERCRONIC_URL"
+RUN echo "${SUPERCRONIC_SHA1SUM}  ${SUPERCRONIC}" | sha1sum -c -
+RUN chmod +x "$SUPERCRONIC"
+RUN mv "$SUPERCRONIC" "/usr/local/bin/${SUPERCRONIC}"
+RUN ln -s "/usr/local/bin/${SUPERCRONIC}" /usr/local/bin/supercronic
+
+RUN touch /var/log/cron.log
+
+COPY backup /usr/local/bin/backup
+RUN chmod +x /usr/local/bin/backup
+
+COPY crontab .
