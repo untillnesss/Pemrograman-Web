@@ -16,40 +16,41 @@ require 'MasterData.php';
 
 <body>
     <h1>Folmulir Pendaftaran - Said 1412 22 0068</h1>
+    <form action="" id="form-pendaftaran" method="post"></form>
     <table class="table-biodata">
         <tr>
             <th>NAMA</th>
             <td>:</td>
             <td>
-                <input type="text" name="name" placeholder="Masukkan Nama Kamu">
+                <input type="text" name="name" placeholder="Masukkan Nama Kamu" form="form-pendaftaran">
             </td>
         </tr>
         <tr>
             <th>TEMPAT LAHIR</th>
             <td>:</td>
             <td>
-                <input type="text" name="placeBirth" placeholder="Masukkan Tempat Lahir Kamu">
+                <input type="text" name="placeBirth" placeholder="Masukkan Tempat Lahir Kamu" form="form-pendaftaran">
             </td>
         </tr>
         <tr>
             <th>TANGGAL LAHIR</th>
             <td>:</td>
             <td class="flex">
-                <select name="dateBirth">
+                <select name="dateBirth" form="form-pendaftaran">
                     <?php
                     for ($i = 1; $i <= 31; $i++) {
                         echo '<option value="' . $i . '">' . $i . '</option>';
                     }
                     ?>
                 </select>
-                <select name="monthBirth">
+                <select name="monthBirth" form="form-pendaftaran">
                     <?php
                     foreach (MasterData::months() as $index => $month) {
                         echo '<option value="' . $index . '">' . $month . '</option>';
                     }
                     ?>
                 </select>
-                <select name="yearBirth">
+                <select name="yearBirth" form="form-pendaftaran">
                     <?php
                     for ($i = 1900; $i <= 2100; $i++) {
                         echo '<option value="' . $i . '">' . $i . '</option>';
@@ -62,34 +63,34 @@ require 'MasterData.php';
             <th>JENIS KELAMIN</th>
             <td>:</td>
             <td class="flex">
-                <input type="radio" name="gender" value="m" id="gender-m"> <label for="gender-m">Laki-laki</label>
+                <input type="radio" name="gender" value="m" id="gender-m" form="form-pendaftaran"> <label for="gender-m">Laki-laki</label>
                 <hr>
-                <input type="radio" name="gender" value="f" id="gender-f"> <label for="gender-f">Perempuan</label>
+                <input type="radio" name="gender" value="f" id="gender-f" form="form-pendaftaran"> <label for="gender-f">Perempuan</label>
             </td>
         </tr>
         <tr>
             <th>ALAMAT</th>
             <td>:</td>
             <td>
-                <textarea name="address" id="address" cols="30" rows="10" placeholder="Masukkan Alamat Kamu"></textarea>
+                <textarea name="address" id="address" cols="30" rows="10" placeholder="Masukkan Alamat Kamu" form="form-pendaftaran"></textarea>
             </td>
         </tr>
         <tr>
             <th>ASAL SEKOLAH</th>
             <td>:</td>
             <td class="flex">
-                <input type="radio" name="school" value="school-sma" id="school-sma"> <label for="school-sma">SMA</label>
+                <input type="radio" name="school" value="school-sma" id="school-sma" form="form-pendaftaran"> <label for="school-sma">SMA</label>
                 <hr>
-                <input type="radio" name="school" value="school-smk" id="school-smk"> <label for="school-smk">SMK</label>
+                <input type="radio" name="school" value="school-smk" id="school-smk" form="form-pendaftaran"> <label for="school-smk">SMK</label>
                 <hr>
-                <input type="radio" name="school" value="school-ma" id="school-ma"> <label for="school-ma">MA</label>
+                <input type="radio" name="school" value="school-ma" id="school-ma" form="form-pendaftaran"> <label for="school-ma">MA</label>
             </td>
         </tr>
         <tr>
             <td></td>
             <td></td>
             <td>
-                <input type="text" name="schoolName" placeholder="Masukkan Nama Sekolah Kamu">
+                <input type="text" name="schoolName" placeholder="Masukkan Nama Sekolah Kamu" form="form-pendaftaran">
             </td>
         </tr>
         <tr>
@@ -101,21 +102,21 @@ require 'MasterData.php';
             <td>Matematika</td>
             <td>:</td>
             <td>
-                <input type="number" name="score-mtk" placeholder="Masukkan Nilai">
+                <input type="number" name="score-mtk" placeholder="Masukkan Nilai" form="form-pendaftaran">
             </td>
         </tr>
         <tr>
             <td>Bahasa Inggris</td>
             <td>:</td>
             <td>
-                <input type="number" name="score-inggris" placeholder="Masukkan Nilai">
+                <input type="number" name="score-inggris" placeholder="Masukkan Nilai" form="form-pendaftaran">
             </td>
         </tr>
         <tr>
             <td>Bahasa Indonesia</td>
             <td>:</td>
             <td>
-                <input type="number" name="score-indonesia" placeholder="Masukkan Nilai">
+                <input type="number" name="score-indonesia" placeholder="Masukkan Nilai" form="form-pendaftaran">
             </td>
         </tr>
         <tr>
@@ -131,7 +132,7 @@ require 'MasterData.php';
             </td>
             <td>:</td>
             <td>
-                <select name="jurusan-1" id="jurusan-1">
+                <select name="jurusan-1" id="jurusan-1" form="form-pendaftaran">
                     <?php
                     foreach (MasterData::jurusan() as $key => $value) {
                         echo '<option value="' . $key . '">' . $value . '</option>';
@@ -148,7 +149,7 @@ require 'MasterData.php';
             </td>
             <td>:</td>
             <td>
-                <select name="jurusan-2" id="jurusan-2">
+                <select name="jurusan-2" id="jurusan-2" form="form-pendaftaran">
                     <?php
                     foreach (MasterData::jurusan() as $key => $value) {
                         echo '<option value="' . $key . '">' . $value . '</option>';
@@ -161,13 +162,18 @@ require 'MasterData.php';
             <th>ALASAN MASUK UNIROW</th>
             <td>:</td>
             <td>
-                <textarea name="reason" id="reason" cols="30" rows="10" placeholder="Masukkan Alasan Kamu"></textarea>
+                <textarea name="reason" id="reason" cols="30" rows="10" placeholder="Masukkan Alasan Kamu" form="form-pendaftaran"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <input type="checkbox" id="check" form="form-pendaftaran"><label for="check">Dengan ini Saya menyatakan bahwa data yang diberikan sesuai dengan sebenarnya.</label>
             </td>
         </tr>
         <tr>
             <td colspan="3" align="right">
-                <input type="reset" value="Cancel">
-                <input type="submit" value="Daftar">
+                <input type="reset" value="Cancel" form="form-pendaftaran">
+                <input type="submit" value="Daftar" form="form-pendaftaran">
             </td>
         </tr>
     </table>
