@@ -16,7 +16,7 @@ require 'MasterData.php';
 
 <body>
     <h1>Folmulir Pendaftaran - Said 1412 22 0068</h1>
-    <form action="" id="form-pendaftaran" method="post"></form>
+    <form action="process.php" id="form-pendaftaran" method="post"></form>
     <table class="table-biodata">
         <tr>
             <th>NAMA</th>
@@ -29,7 +29,7 @@ require 'MasterData.php';
             <th>TEMPAT LAHIR</th>
             <td>:</td>
             <td>
-                <input type="text" name="placeBirth" placeholder="Masukkan Tempat Lahir Kamu" form="form-pendaftaran" required>
+                <input type="text" name="birthPlace" placeholder="Masukkan Tempat Lahir Kamu" form="form-pendaftaran" required>
             </td>
         </tr>
         <tr>
@@ -42,10 +42,13 @@ require 'MasterData.php';
         <tr>
             <th>JENIS KELAMIN</th>
             <td>:</td>
-            <td class="flex">
-                <input type="radio" name="gender" value="m" id="gender-m" form="form-pendaftaran" required> <label for="gender-m">Laki-laki</label>
-                <hr>
-                <input type="radio" name="gender" value="f" id="gender-f" form="form-pendaftaran" required> <label for="gender-f">Perempuan</label>
+            <td class="flex gap-20">
+                <?php
+                foreach (MasterData::gender() as $key => $label) { ?>
+                    <div>
+                        <input type="radio" name="gender" value="<?= $key ?>" id="<?= $key ?>" form="form-pendaftaran" required> <label for="<?= $key ?>"><?= $label ?></label>
+                    </div>
+                <?php } ?>
             </td>
         </tr>
         <tr>
@@ -58,12 +61,13 @@ require 'MasterData.php';
         <tr>
             <th>ASAL SEKOLAH</th>
             <td>:</td>
-            <td class="flex">
-                <input type="radio" name="school" value="school-sma" id="school-sma" form="form-pendaftaran" required> <label for="school-sma">SMA</label>
-                <hr>
-                <input type="radio" name="school" value="school-smk" id="school-smk" form="form-pendaftaran" required> <label for="school-smk">SMK</label>
-                <hr>
-                <input type="radio" name="school" value="school-ma" id="school-ma" form="form-pendaftaran" required> <label for="school-ma">MA</label>
+            <td class="flex gap-20">
+                <?php
+                foreach (MasterData::jenjangSekolah() as $key => $label) { ?>
+                    <div>
+                        <input type="radio" name="school" value="<?= $key ?>" id="<?= $key ?>" form="form-pendaftaran" required> <label for="<?= $key ?>"><?= $label ?></label>
+                    </div>
+                <?php } ?>
             </td>
         </tr>
         <tr>
@@ -114,10 +118,9 @@ require 'MasterData.php';
             <td>
                 <select name="jurusan-1" id="jurusan-1" form="form-pendaftaran" required>
                     <?php
-                    foreach (MasterData::jurusan() as $key => $value) {
-                        echo '<option value="' . $key . '">' . $value . '</option>';
-                    }
-                    ?>
+                    foreach (MasterData::jurusan() as $key => $label) { ?>
+                        <option value="<?= $key ?>"><?= $label ?></option>
+                    <?php } ?>
                 </select>
             </td>
         </tr>
@@ -131,10 +134,9 @@ require 'MasterData.php';
             <td>
                 <select name="jurusan-2" id="jurusan-2" form="form-pendaftaran" required>
                     <?php
-                    foreach (MasterData::jurusan() as $key => $value) {
-                        echo '<option value="' . $key . '">' . $value . '</option>';
-                    }
-                    ?>
+                    foreach (MasterData::jurusan() as $key => $label) { ?>
+                        <option value="<?= $key ?>"><?= $label ?></option>
+                    <?php } ?>
                 </select>
             </td>
         </tr>
