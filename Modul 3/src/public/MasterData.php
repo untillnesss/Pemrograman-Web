@@ -20,13 +20,31 @@ class MasterData
         ];
     }
 
-    static function jenisSekolah()
+    static function gender()
     {
         return [
-            'tif' => 'Teknik Informatika',
-            'ti' => 'Teknik Industri',
-            'pd' => 'Pendidikan',
+            'gender-m' => 'Laki-Laki',
+            'gender-f' => 'Perempuan',
         ];
+    }
+
+    static function getGender($data)
+    {
+        return MasterData::gender()[$data] ?? '-';
+    }
+
+    static function jenjangSekolah()
+    {
+        return [
+            'school-sma' => 'SMA',
+            'school-smk' => 'SMK',
+            'school-ma' => 'MA',
+        ];
+    }
+
+    static function getJenjangSekolah($data)
+    {
+        return MasterData::jenjangSekolah()[$data] ?? '-';
     }
 
     static function jurusan()
@@ -36,5 +54,16 @@ class MasterData
             'ti' => 'Teknik Industri',
             'pd' => 'Pendidikan',
         ];
+    }
+
+    static function getJurusan($data)
+    {
+        return MasterData::jurusan()[$data] ?? '-';
+    }
+
+    static function formatDate($data)
+    {
+        $date = date_create($data);
+        return date_format($date, 'd F Y');
     }
 }
