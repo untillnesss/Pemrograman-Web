@@ -17,14 +17,14 @@
             <td>Baris</td>
             <td>:</td>
             <td>
-                <input type="number" name="num1" placeholder="Masukkan Nilai" form="form-pendaftaran" required value="7">
+                <input type="number" name="num1" placeholder="Masukkan Nilai" form="form-pendaftaran" required value="<?= $_POST['num1'] ?? 7?>">
             </td>
         </tr>
         <tr>
             <td>Kolom</td>
             <td>:</td>
             <td>
-                <input type="number" name="num2" placeholder="Masukkan Nilai" form="form-pendaftaran" required value="6">
+                <input type="number" name="num2" placeholder="Masukkan Nilai" form="form-pendaftaran" required value="<?= $_POST['num2'] ?? 6?>">
             </td>
         </tr>
         <?php
