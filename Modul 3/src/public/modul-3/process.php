@@ -1,10 +1,10 @@
 <?php
 
-require 'MasterData.php';
+require './MasterData.php';
 date_default_timezone_set('Asia/Jakarta');
 
 if (empty($_POST)) {
-    header("Location: /");
+    header("Location: /modul-3/");
     exit();
 }
 
@@ -17,7 +17,7 @@ if (empty($_POST)) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Folmulir Pendaftaran</title>
 
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="./style.css">
 </head>
 
 <body>
