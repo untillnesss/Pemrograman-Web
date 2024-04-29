@@ -66,11 +66,11 @@ class RegisterController
 
         $data = $q->fetch(PDO::FETCH_ASSOC);
 
-        if(is_bool($data)){
+        DB::disconnect();
+
+        if (is_bool($data)) {
             return false;
         }
-        
-        DB::disconnect();
 
         return true;
     }
