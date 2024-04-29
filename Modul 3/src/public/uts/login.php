@@ -1,5 +1,8 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/uts/helpers/Flash.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/uts/controllers/LoginController.php';
+
+LoginController::listen();
 ?>
 <?php require_once './templates/head.php' ?>
 
@@ -35,16 +38,17 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/uts/helpers/Flash.php';
     <main class="form-signin w-100 d-flex flex-column align-items-center">
         <i class="bi-coin" style="font-size: 7rem; color: cornflowerblue;"></i>
         <h1 class="h3 mb-3 fw-normal mb-5">Silahkan Masuk</h1>
-        <form class="w-100">
+        <form class="w-100" method="post" action="">
             <?php
             Flash::flash('successRegister');
+            Flash::flash('error');
             ?>
             <div class="form-floating">
-                <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email" value="<?= $_POST['email'] ?? '' ?>">
                 <label for="floatingInput">Email</label>
             </div>
             <div class="form-floating">
-                <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password">
                 <label for="floatingPassword">Password</label>
             </div>
 
