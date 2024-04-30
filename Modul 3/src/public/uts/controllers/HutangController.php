@@ -112,4 +112,126 @@ class HutangController
         Flash::flash('flash', 'Berhasil menambahkan hutang', FLASH_SUCCESS);
         Helpers::redirect('dashboard.php');
     }
+
+    static public function prepareUpdate()
+    {
+        if (!isset($_GET['id']) || empty($_GET['id'])) {
+            Helpers::redirect('dashboard.php');
+            exit;
+        }
+
+        $id = $_GET['id'];
+
+        $db = DB::connector();
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $sql = 'SELECT * 
+                FROM debts 
+                WHERE user_id = ?
+                AND id = ?';
+
+        $q = $db->prepare($sql);
+        $q->execute(array(Auth::getUserId(), $id));
+
+        $data = $q->fetch(PDO::FETCH_ASSOC);
+
+        DB::disconnect();
+
+        if (is_bool($data)) {
+            return [];
+        }
+
+        return $data;
+    }
+
+    static public function update()
+    {
+        if (empty($_POST)) return;
+
+        $id = $_POST['id'];
+        $name = $_POST['name'];
+        $amount = $_POST['amount'];
+        $date = $_POST['date'];
+        $description = $_POST['description'];
+
+        $db = DB::connector();
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $sql = 'UPDATE debts 
+                SET 
+                    name = :name, 
+                    amount = :amount,
+                    description = :description, 
+                    date = :date
+                WHERE id = :id';
+
+        $q = $db->prepare($sql);
+        $q->execute([
+            'name' => $name,
+            'amount' => $amount,
+            'description' => $description,
+            'date' => $date,
+            'id' => $id,
+        ]);
+
+        DB::disconnect();
+
+        Flash::flash('flash', 'Berhasil mengubah hutang', FLASH_SUCCESS);
+        Helpers::redirect('dashboard.php');
+    }
+
+    static public function listen()
+    {
+        if (empty($_POST)) return;
+
+        $action = $_POST['action'];
+        $id = $_POST['id'];
+
+        match ($action) {
+            'lunas' => self::doLunas($id),
+            'hapus' => self::doHapus($id),
+            default => function () {
+            }
+        };
+    }
+
+    static private function doLunas($id)
+    {
+        $db = DB::connector();
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $sql = 'UPDATE debts 
+                SET is_settled = :is_settled 
+                WHERE id = :id';
+
+        $q = $db->prepare($sql);
+        $q->execute([
+            'is_settled' => 1,
+            'id' => $id,
+        ]);
+
+        DB::disconnect();
+
+        Flash::flash('flash', 'Berhasil melunasi hutang', FLASH_SUCCESS);
+        Helpers::redirect('dashboard.php');
+    }
+
+    static private function doHapus($id)
+    {
+        $db = DB::connector();
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $sql = 'DELETE FROM debts 
+                WHERE id = :id';
+
+        $q = $db->prepare($sql);
+        $q->execute([
+            'id' => $id,
+        ]);
+
+        DB::disconnect();
+
+        Flash::flash('flash', 'Berhasil menghapus hutang', FLASH_SUCCESS);
+        Helpers::redirect('dashboard.php');
+    }
 }
