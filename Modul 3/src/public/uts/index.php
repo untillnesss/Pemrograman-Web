@@ -1,4 +1,5 @@
 <?php
+require_once './helpers/Auth.php';
 require_once './services/DB.php';
 $db = DB::connector();
 ?>

@@ -1,6 +1,9 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/uts/helpers/Flash.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/uts/controllers/LoginController.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/uts/helpers/Auth.php';
+
+Auth::requireGuest();
 
 LoginController::listen();
 ?>
