@@ -1,10 +1,13 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/uts/helpers/Flash.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/uts/controllers/HutangController.php';
 require_once './helpers/Auth.php';
 require_once './services/DB.php';
 Auth::requireLogin();
 
 $db = DB::connector();
+
+$stats = HutangController::stats();
 ?>
 
 <?php require_once './templates/head.php' ?>
@@ -18,7 +21,7 @@ $db = DB::connector();
                 <div class="card">
                     <h5 class="card-header">Total Hutang</h5>
                     <div class="card-body">
-                        <h1 class="card-title">Rp 200.000</h1>
+                        <h1 class="card-title"><?= Helpers::rupiah($stats[0]) ?></h1>
                         <p class="card-text">Jumlah Total semua hutang yang belum lunas</p>
                     </div>
                 </div>
@@ -27,7 +30,7 @@ $db = DB::connector();
                 <div class="card">
                     <h5 class="card-header">Hutang Lunas</h5>
                     <div class="card-body">
-                        <h1 class="card-title text-success">Rp 200.000</h1>
+                        <h1 class="card-title"><?= Helpers::rupiah($stats[1]) ?></h1>
                         <p class="card-text">Jumlah Total semua hutang yang sudah lunas</p>
                     </div>
                 </div>
@@ -50,28 +53,32 @@ $db = DB::connector();
                                     <th>Nama</th>
                                     <th>Catatan</th>
                                     <th>Jumlah</th>
+                                    <th>Tanggal</th>
                                     <th>Sudah Lunas?</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Dimas</td>
-                                    <td>dia hutang ke aku</td>
-                                    <td>300.000</td>
-                                    <td>Belum</td>
-                                </tr>
-                                <tr>
-                                    <td>Dimas</td>
-                                    <td>dia hutang ke aku</td>
-                                    <td>300.000</td>
-                                    <td>Belum</td>
-                                </tr>
-                                <tr>
-                                    <td>Dimas</td>
-                                    <td>dia hutang ke aku</td>
-                                    <td>300.000</td>
-                                    <td>Belum</td>
-                                </tr>
+                                <?php if (empty(HutangController::list())) : ?>
+                                    <tr>
+                                        <td colspan="6">Tidak ada data</td>
+                                    </tr>
+                                <?php else : ?>
+                                    <?php foreach (HutangController::list() as $row) :
+                                        $isSettled = (($row['is_settled'] ?? '0') == 1);
+                                    ?>
+                                        <tr>
+                                            <td><?= $row['name'] ?? '' ?></td>
+                                            <td><?= $row['description'] ?? '' ?></td>
+                                            <td><?= Helpers::rupiah($row['amount']) ?? Helpers::rupiah(0) ?></td>
+                                            <td><?= Helpers::formatDate($row['date']) ?? '' ?></td>
+                                            <td>
+                                                <div class="badge <?= $isSettled ? 'text-bg-success' : 'text-bg-warning' ?>"><?= $isSettled ? 'Lunas' : 'Belum Lunas'  ?></div>
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                    <?php endforeach ?>
+                                <?php endif ?>
                             </tbody>
                         </table>
                     </div>

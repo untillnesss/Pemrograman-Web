@@ -11,6 +11,78 @@ if (!isset($_SESSION)) {
 
 class HutangController
 {
+    static private function getSumHutang($db)
+    {
+        $sql = 'SELECT 
+                SUM(amount) AS total
+                FROM debts 
+                WHERE is_settled = 0 
+                AND user_id = ?
+                GROUP BY user_id;';
+
+        $q = $db->prepare($sql);
+        $q->execute(array(Auth::getUserId()));
+
+        $data = $q->fetch(PDO::FETCH_ASSOC);
+        return $data['total'] ?? 0;
+    }
+
+    static private function getSumHutangLunas($db)
+    {
+        $sql = 'SELECT 
+                SUM(amount) AS total
+                FROM debts 
+                WHERE is_settled = 1
+                AND user_id = ?
+                GROUP BY user_id;';
+
+        $q = $db->prepare($sql);
+        $q->execute(array(Auth::getUserId()));
+
+        $data = $q->fetch(PDO::FETCH_ASSOC);
+        return $data['total'] ?? 0;
+    }
+
+    static public function stats()
+    {
+        $totalHutang = 0;
+        $totalHutangLunas = 0;
+
+        $db = DB::connector();
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $totalHutang = self::getSumHutang($db);
+        $totalHutangLunas = self::getSumHutangLunas($db);
+
+        DB::disconnect();
+
+        return [$totalHutang, $totalHutangLunas];
+    }
+
+    static public function list()
+    {
+        $db = DB::connector();
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $sql = 'SELECT * 
+                FROM debts 
+                WHERE user_id = ?
+                ORDER BY date DESC';
+
+        $q = $db->prepare($sql);
+        $q->execute(array(Auth::getUserId()));
+
+        $data = $q->fetchAll(PDO::FETCH_ASSOC);
+
+        DB::disconnect();
+
+        if (is_bool($data)) {
+            return [];
+        }
+
+        return $data;
+    }
+
     static public function store()
     {
         if (empty($_POST)) return;
