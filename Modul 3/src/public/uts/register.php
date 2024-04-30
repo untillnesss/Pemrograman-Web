@@ -2,10 +2,14 @@
 
 require_once './controllers/RegisterController.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/uts/helpers/Flash.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/uts/helpers/Auth.php';
 
 if (!isset($_SESSION)) {
     session_start();
 }
+
+Auth::requireGuest();
+
 
 RegisterController::listen();
 

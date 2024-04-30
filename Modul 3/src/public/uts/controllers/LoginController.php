@@ -2,6 +2,7 @@
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/uts/helpers/Helpers.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/uts/helpers/Flash.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/uts/helpers/Auth.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/uts/services/DB.php';
 
 if (!isset($_SESSION)) {
@@ -40,6 +41,7 @@ class LoginController
             return;
         }
 
+        Auth::setAuth($data['id']);
         Helpers::redirect('dashboard.php');
     }
 }
