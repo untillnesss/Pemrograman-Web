@@ -7,6 +7,7 @@ Auth::requireLogin();
 
 $db = DB::connector();
 
+HutangController::listen();
 $stats = HutangController::stats();
 ?>
 
@@ -64,7 +65,7 @@ $stats = HutangController::stats();
                                         <td colspan="6">Tidak ada data</td>
                                     </tr>
                                 <?php else : ?>
-                                    <?php foreach (HutangController::list() as $row) :
+                                    <?php foreach (HutangController::list() as $i => $row) :
                                         $isSettled = (($row['is_settled'] ?? '0') == 1);
                                     ?>
                                         <tr>
@@ -75,7 +76,21 @@ $stats = HutangController::stats();
                                             <td>
                                                 <div class="badge <?= $isSettled ? 'text-bg-success' : 'text-bg-warning' ?>"><?= $isSettled ? 'Lunas' : 'Belum Lunas'  ?></div>
                                             </td>
-                                            <td></td>
+                                            <td class="d-flex gap-1">
+                                                <form action="" method="post" id="form-hapus-<?= $i ?>">
+                                                    <input type="hidden" name="id" value="<?= $row['id'] ?>">
+                                                    <input type="hidden" name="action" value="hapus">
+                                                </form>
+                                                <button class="btn btn-danger" type="submit" form="form-hapus-<?= $i ?>">Hapus</button>
+                                                <a class="btn btn-warning" href="./edit.php?id=<?= $row['id'] ?>">Ubah</a>
+                                                <?php if (!$isSettled) : ?>
+                                                    <form action="" method="post" id="form-lunas-<?= $i ?>">
+                                                        <input type="hidden" name="id" value="<?= $row['id'] ?>">
+                                                        <input type="hidden" name="action" value="lunas">
+                                                    </form>
+                                                    <button class="btn btn-success" type="submit" form="form-lunas-<?= $i ?>">Lunas</button>
+                                                <?php endif ?>
+                                            </td>
                                         </tr>
                                     <?php endforeach ?>
                                 <?php endif ?>
