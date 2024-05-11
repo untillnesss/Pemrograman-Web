@@ -74,7 +74,7 @@
 <body>
 	<h1>Input Data Mahasiswa</h1>
 	<?php echo form_open(
-		base_url('pertemuan2/tampilkan_data'),
+		base_url('/pertemuan2/tampilkan_data'),
 		'method="post"'
 	); ?>
 
