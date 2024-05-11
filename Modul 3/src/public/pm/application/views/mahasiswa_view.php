@@ -11,7 +11,7 @@
 	<form method="get">
 		<input type="text" required name="keyword" placeholder="Cari mahasiswa berdasarkan nama..." value="<?= $keyword ?>">
 		<button type="submit">Cari</button>
-		<button onclick="window.location.href='<?php echo base_url('/'); ?>'" type="button">Reset</button>
+		<button onclick="window.location.href='<?php echo base_url('/mahasiswa'); ?>'" type="button">Reset</button>
 	</form>
 	<table border="1">
 		<thead>
