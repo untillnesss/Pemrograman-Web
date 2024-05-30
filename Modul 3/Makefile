@@ -1,3 +1,12 @@
+main:
+	git pull
+	docker compose up --build -d --force-recreate --remove-orphans
+	# docker exec pemrograman_web-php bash -c "composer i"
+	# docker exec pemrograman_web-php bash -c "php artisan storage:link"
+	# docker exec pemrograman_web-php bash -c "php artisan migrate --seed"
+	# docker exec pemrograman_web-php bash -c "php artisan optimize"
+	# docker exec pemrograman_web-php bash -c "php artisan view:cache"
+
 run-app-with-setup:
 	cp ./src/.env.example ./src/.env
 	docker compose build
