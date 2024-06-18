@@ -52,3 +52,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 $route['default_controller'] = 'welcome';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
+$route['pertemuan4/barang'] = 'pertemuan5/index';
+$route['pertemuan4/barang/create'] = 'pertemuan5/create';
+$route['pertemuan4/barang/store'] = 'pertemuan5/store';
+$route['pertemuan4/barang/delete/(:num)'] = 'pertemuan5/delete/$1';
+$route['pertemuan4/barang/edit/(:num)'] = 'pertemuan5/edit/$1';
+$route['pertemuan4/barang/update/(:num)'] = 'pertemuan5/update/$1';
