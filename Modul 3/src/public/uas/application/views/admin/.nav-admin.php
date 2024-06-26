@@ -29,12 +29,13 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/GlobalConfig.php';
 					</li>
 				</ul>
 			</div>
+
 			<div class="btn-group" role="group" aria-label="Button group with nested dropdown">
 				<button type="button" class="btn btn-danger"><?= $this->session->userdata('username') ?></button>
 				<div class="btn-group" role="group">
-					<button id="btnGroupDrop1" type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-					<div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-						<a class="dropdown-item" href="<?php echo base_url() ?>login/logout"><i class="fas fa-sign-out-alt mr-2"></i>Logout</a>
+					<button id="btnGroupDrop4" type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+					<div class="dropdown-menu" aria-labelledby="btnGroupDrop4">
+						<a class="dropdown-item" href="<?php echo base_url() ?>login/logout">Logout</a>
 					</div>
 				</div>
 			</div>
