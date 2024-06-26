@@ -4,7 +4,7 @@
 			<div class="row">
 				<div class="col-sm">
 					<!-- Default form login -->
-					<form class="text-center" method="post" action="<?= site_url() ?>login/login_validation">
+					<form class="" method="post" action="<?= site_url() ?>login/login_validation">
 
 						<h1 class="fs-1">
 							<i class="bi bi-house-heart"></i>
@@ -13,11 +13,16 @@
 						<p class="h4 mb-4">Sistem Hoootel</p>
 
 						<!-- Email -->
-						<input type="text" name="username" id="username" class="form-control mb-4" placeholder="Username">
+						<div>
+							<label for="username" class="form-label">Username</label>
+							<input type="text" name="username" id="username" class="form-control mb-4" placeholder="Masukkan username">
+						</div>
 
 						<!-- Password -->
-						<input type="password" name="password" id="password" class="form-control mb-4" placeholder="Password">
-
+						<div>
+							<label for="password" class="form-label">Password</label>
+							<input type="password" name="password" id="password" class="form-control mb-4" placeholder="Masukkan password">
+						</div>
 
 						<!-- Sign in button -->
 						<button class="btn btn-primary" type="submit">Login</button>
