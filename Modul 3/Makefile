@@ -23,6 +23,7 @@ run-app:
 	docker compose up -d
 
 kill-app:
+down:
 	docker compose down
 
 enter-nginx-container:
