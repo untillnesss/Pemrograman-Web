@@ -24,11 +24,11 @@ class Admin extends CI_Controller {
 	{
 		parent :: __construct();   
 		$this->load->helper(array('form', 'url'));
-			//load the validation library
+		//load the validation library
 		$this->load->library('form_validation');
 		$this->load->library("pagination");
         if($this->session->userdata('username') == ''){
-            redirect(base_url() . 'login');
+			redirect(base_url() . 'login');
 		}
 		$this->load->model("admin_model");
 	}

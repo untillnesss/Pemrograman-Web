@@ -106,7 +106,7 @@ class Tamu_kamar extends CI_Controller {
 
 	public function pembayaran_save(){
 		
-        $config['file_name'] = $this->input->post("idkamar");
+        $config['file_name'] = $this->input->post("idpesan");
 		$config['upload_path'] = './uploads/tamu/bukti_pembayaran';
 		$config['allowed_types'] = 'gif|jpg|jpeg|png';
 		$config['max_size'] = 10000;
