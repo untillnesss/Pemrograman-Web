@@ -149,15 +149,10 @@ class Admin extends CI_Controller
 		}
 	}
 
-	public function tambah_kamar_saved()
-	{
-		$this->kamar_list();
-	}
-
 	public function ubah_kamar_form()
 	{
 		$id = $this->uri->segment(3);
-		$data['kamar'] = $this->admin_model->fetch_kamar_single($id);
+		$data['kamar'] = $this->admin_model->fetch_kamar_single($id)->row();
 
 		$this->load->view('.header.php');
 		$this->load->view('admin/.nav-admin.php');
@@ -167,18 +162,32 @@ class Admin extends CI_Controller
 
 	public function ubah_kamar_save()
 	{
-		if (empty($this->input->post('checkgambar'))) {
+		$idKamar = $this->input->post('idkamar');
+		$data['kamar'] = $this->admin_model->fetch_kamar_single($idKamar)->row();
 
+		if ($this->runValidation() == false) {
+
+			$this->load->view('.header.php');
+			$this->load->view('admin/.nav-admin.php');
+			$this->load->view('admin/kamar/ubah_kamar_form.php', $data);
+			$this->load->view('.footer.php');
+			return;
+		}
+
+		if ((!isset($_FILES['gambar'])) || $_FILES['gambar']['size'] == 0) {
 			$data = array(
-				'idkamar' => $this->input->post('idkamar'),
+				'idkamar' => $idKamar,
 				'tipe' => $this->input->post('tipe'),
 				'jumlah' => $this->input->post('jumlah'),
 				'harga' => $this->input->post('harga'),
 			);
 			$this->admin_model->update_kamar($data);
-			redirect(base_url() . 'admin/ubah_kamar_saved');
-		} elseif (empty($this->input->post('checkgambar'))) {
-			$config['file_name'] = $this->input->post('idkamar');
+
+			$this->session->set_flashdata('success', 'Berhasil mengubah kamar.');
+			redirect(base_url() . 'admin/kamar_list');
+			return;
+		} else {
+			$config['file_name'] = $idKamar;
 			$config['upload_path'] = './uploads/admin/kamar';
 			$config['allowed_types'] = 'gif|jpg|jpeg|png';
 			$config['max_size'] = 10000;
@@ -188,25 +197,28 @@ class Admin extends CI_Controller
 
 			if (!$this->upload->do_upload('gambar')) {
 				$error = array('error' => $this->upload->display_errors());
-				print_r($error);
-				// redirect(base_url() . "tamu_kamar/pembayaran_form/" . $this->input->post("idkamar"));
+				$data['error'] = $error;
+
+				$this->load->view('.header.php');
+				$this->load->view('admin/.nav-admin.php');
+				$this->load->view('admin/kamar/ubah_kamar_form.php', $data);
+				$this->load->view('.footer.php');
+				return;
 			} else {
 				$data = array(
-					'idkamar' => $this->input->post('idkamar'),
+					'idkamar' => $idKamar,
 					'tipe' => $this->input->post('tipe'),
 					'jumlah' => $this->input->post('jumlah'),
 					'harga' => $this->input->post('harga'),
 					'gambar' => $this->upload->data('file_name'),
 				);
 				$this->admin_model->update_kamar($data);
-				redirect(base_url() . 'admin/ubah_kamar_saved');
+
+				$this->session->set_flashdata('success', 'Berhasil mengubah kamar.');
+				redirect(base_url() . 'admin/kamar_list');
+				return;
 			}
 		}
-	}
-
-	public function ubah_kamar_saved()
-	{
-		$this->kamar_list();
 	}
 
 	public function hapus_kamar()
@@ -214,12 +226,9 @@ class Admin extends CI_Controller
 		$id = $this->uri->segment(3);
 
 		$this->admin_model->delete_kamar($id);
-		redirect(base_url() . 'admin/terhapus_kamar');
-	}
 
-	public function terhapus_kamar()
-	{
-		$this->kamar_list();
+		$this->session->set_flashdata('success', 'Berhasil menghapus kamar.');
+		redirect(base_url() . 'admin/kamar_list');
 	}
 
 	//tamu

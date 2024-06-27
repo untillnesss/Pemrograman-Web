@@ -36,7 +36,7 @@
 								</div>
 							</div>
 							<div class="mb-3 mt-2">
-								<label for="gambar" class="form-label">Default file input example</label>
+								<label for="gambar" class="form-label">Gambar</label>
 								<input class="form-control" type="file" id="gambar" name="gambar" form="form-barang" required accept="image/*">
 								<?php if (isset($error['error'])) : ?>
 									<small class="text-danger"><?= $error['error'] ?? '' ?></small>
@@ -50,7 +50,7 @@
 
 
 		<div class="row mb-5">
-			<div class="col-12 justify-content-end d-flex gap-3">
+			<div class="col-12 justify-content-end d-flex gap-2">
 				<a href="<?php echo site_url('admin/kamar_list'); ?>" class="btn btn-danger">Batal</a>
 				<button form="form-barang" type="submit" class="btn btn-primary btn-block">Simpan</button>
 			</div>
