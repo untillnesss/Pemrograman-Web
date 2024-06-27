@@ -2,7 +2,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-12">
-				<h1>Dashboard - Admin</h1>
+				<h2>Dashboard - Admin</h2>
 			</div>
 		</div>
 		<div class="row">

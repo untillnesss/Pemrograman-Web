@@ -2,7 +2,7 @@
 	<div class="container">
 		<div class="row mb-3">
 			<div class="col-12 col-md-6">
-				<h1>Data Kamar</h1>
+				<h2>Data Kamar</h2>
 			</div>
 			<div class="col-12 col-md-6 d-md-flex justify-content-end">
 				<form method="GET" id="form-search"></form>
@@ -14,7 +14,6 @@
 				</div>
 			</div>
 		</div>
-
 
 		<div class="row">
 			<div class="col-12 table-responsive">

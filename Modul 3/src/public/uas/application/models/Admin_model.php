@@ -68,11 +68,26 @@ class Admin_model extends CI_Model
 
 	function fetch_tamu_perpage($limit, $start)
 	{
-		$query = $this->db->query("SELECT * FROM tamu a
-        ORDER BY a.idtamu DESC
-        LIMIT " . $start . ", " . $limit);
+		$query = $this->db->query("SELECT * FROM tamu a ORDER BY a.idtamu DESC")->result_array();
 
 		return $query;
+	}
+
+	public function search_tamu($keyword)
+	{
+		$columns = [
+			'username',
+			'nama',
+			'alamat',
+			'telepon',
+		];
+
+		foreach ($columns as $colum) {
+			$this->db->or_like($colum, $keyword);
+		}
+
+		$query = $this->db->get('tamu');
+		return $query->result_array();
 	}
 
 	function fetch_pemesanan_perpage($limit, $start)

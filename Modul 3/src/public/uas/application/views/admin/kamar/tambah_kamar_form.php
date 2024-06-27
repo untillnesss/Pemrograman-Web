@@ -2,7 +2,7 @@
 	<div class="container">
 		<div class="row mb-3">
 			<div class="col-12 col-md-6">
-				<h1>Tambah Kamar</h1>
+				<h2>Tambah Kamar</h2>
 			</div>
 		</div>
 
