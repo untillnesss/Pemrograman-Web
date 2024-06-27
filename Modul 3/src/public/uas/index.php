@@ -1,4 +1,5 @@
 <?php
+require_once $_SERVER['DOCUMENT_ROOT'] . '/application/helpers/app_helper.php';
 /**
  * CodeIgniter
  *

@@ -1,7 +1,8 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Admin extends CI_Controller {
+class Admin extends CI_Controller
+{
 
 	/**
 	 * Index Page for this controller.
@@ -19,30 +20,48 @@ class Admin extends CI_Controller {
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
 
-	 
+
 	public function __construct()
 	{
-		parent :: __construct();   
+		parent::__construct();
 		$this->load->helper(array('form', 'url'));
 		//load the validation library
 		$this->load->library('form_validation');
 		$this->load->library("pagination");
-        if($this->session->userdata('username') == ''){
+		if ($this->session->userdata('username') == '') {
 			redirect(base_url() . 'login');
 		}
 		$this->load->model("admin_model");
 	}
 
+	function runValidation()
+	{
+		$this->form_validation->set_rules('tipe', 'Nama kamar', 'required', [
+			'required' => '%s harus diisi.',
+		]);
+		$this->form_validation->set_rules('jumlah', 'Jumlah kamar', 'required|numeric', [
+			'required' => '%s harus diisi.',
+			'numeric' => '%s hanya boleh berisi angka.'
+		]);
+		$this->form_validation->set_rules('harga', 'Harga', 'required|numeric', [
+			'required' => '%s harus diisi.',
+			'numeric' => '%s hanya boleh berisi angka.'
+		]);
+
+		return $this->form_validation->run();
+	}
+
 	public function index()
 	{
-		
+
 		$this->load->view('.header.php');
 		$this->load->view('admin/.nav-admin.php');
 		$this->load->view('admin/welcome.php',);
 		$this->load->view('.footer.php');
 	}
 
-	public function kamar_list(){
+	public function kamar_list()
+	{
 		$config['base_url'] = site_url('admin/kamar_list');
 		$config['total_rows'] = $this->db->count_all('kamar');
 		$config['per_page'] = 5;
@@ -51,24 +70,24 @@ class Admin extends CI_Controller {
 		$config['num_links'] = floor($choice);
 
 		$config['first_link']       = 'First';
-        $config['last_link']        = 'Last';
-        $config['next_link']        = 'Next';
-        $config['prev_link']        = 'Prev';
-        $config['full_tag_open']    = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center">';
-        $config['full_tag_close']   = '</ul></nav></div>';
-        $config['num_tag_open']     = '<li class="page-item"><span class="page-link">';
-        $config['num_tag_close']    = '</span></li>';
-        $config['cur_tag_open']     = '<li class="page-item active"><span class="page-link">';
-        $config['cur_tag_close']    = '<span class="sr-only">(current)</span></span></li>';
-        $config['next_tag_open']    = '<li class="page-item"><span class="page-link">';
-        $config['next_tagl_close']  = '<span aria-hidden="true">&raquo;</span></span></li>';
-        $config['prev_tag_open']    = '<li class="page-item"><span class="page-link">';
-        $config['prev_tagl_close']  = '</span>Next</li>';
-        $config['first_tag_open']   = '<li class="page-item"><span class="page-link">';
-        $config['first_tagl_close'] = '</span></li>';
-        $config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
+		$config['last_link']        = 'Last';
+		$config['next_link']        = 'Next';
+		$config['prev_link']        = 'Prev';
+		$config['full_tag_open']    = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center">';
+		$config['full_tag_close']   = '</ul></nav></div>';
+		$config['num_tag_open']     = '<li class="page-item"><span class="page-link">';
+		$config['num_tag_close']    = '</span></li>';
+		$config['cur_tag_open']     = '<li class="page-item active"><span class="page-link">';
+		$config['cur_tag_close']    = '<span class="sr-only">(current)</span></span></li>';
+		$config['next_tag_open']    = '<li class="page-item"><span class="page-link">';
+		$config['next_tagl_close']  = '<span aria-hidden="true">&raquo;</span></span></li>';
+		$config['prev_tag_open']    = '<li class="page-item"><span class="page-link">';
+		$config['prev_tagl_close']  = '</span>Next</li>';
+		$config['first_tag_open']   = '<li class="page-item"><span class="page-link">';
+		$config['first_tagl_close'] = '</span></li>';
+		$config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
 		$config['last_tagl_close']  = '</span></li>';
-		
+
 		$this->pagination->initialize($config);
 		$data['page'] = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
 
@@ -82,116 +101,130 @@ class Admin extends CI_Controller {
 		$this->load->view('.footer.php');
 	}
 
-	public function tambah_kamar_form(){
-		
+	public function tambah_kamar_form()
+	{
 		$this->load->view('.header.php');
 		$this->load->view('admin/.nav-admin.php');
 		$this->load->view('admin/kamar/tambah_kamar_form.php',);
 		$this->load->view('.footer.php');
 	}
 
-	public function tambah_kamar_save(){
+	public function tambah_kamar_save()
+	{
+		if ($this->runValidation() == false) {
+			$this->load->view('.header.php');
+			$this->load->view('admin/.nav-admin.php');
+			$this->load->view('admin/kamar/tambah_kamar_form.php',);
+			$this->load->view('.footer.php');
+			return;
+		}
 		//mencari auto increment kamar id
 		$kamar = $this->admin_model->kamarid_ai()->row();
-		
-        $config['file_name'] = $kamar->kamarid_ai;
+
+		$config['file_name'] = $kamar->kamarid_ai;
 		$config['upload_path'] = './uploads/admin/kamar';
 		$config['allowed_types'] = 'gif|jpg|jpeg|png';
 		$config['max_size'] = 10000;
-       
+
 		$this->load->library('upload', $config);
 		$this->upload->overwrite = true;
-		
-        if ( ! $this->upload->do_upload('gambar')){
-			$error = array('error' => $this->upload->display_errors());
-			print_r($error);
-            // redirect(base_url() . "tamu_kamar/pembayaran_form/" . $this->input->post("idkamar"));
-        }else{
 
+		if (!$this->upload->do_upload('gambar')) {
+			$error = array('error' => $this->upload->display_errors());
+
+			$this->load->view('.header.php');
+			$this->load->view('admin/.nav-admin.php');
+			$this->load->view('admin/kamar/tambah_kamar_form.php', ['error' => $error]);
+			$this->load->view('.footer.php');
+		} else {
 			$data = array(
-				'tipe'=>$this->input->post('tipe'),
-				'jumlah'=>$this->input->post('jumlah'),
-				'harga'=>$this->input->post('harga'),
-				'gambar'=>$this->upload->data('file_name'),
+				'tipe' => $this->input->post('tipe'),
+				'jumlah' => $this->input->post('jumlah'),
+				'harga' => $this->input->post('harga'),
+				'gambar' => $this->upload->data('file_name'),
 			);
 			$this->admin_model->insert_kamar($data);
-			redirect(base_url() . 'admin/tambah_kamar_saved');
+			$this->session->set_flashdata('success', 'Berhasil menambah kamar.');
+			redirect(base_url() . 'admin/kamar_list');
 		}
-		
 	}
 
-	public function tambah_kamar_saved(){
+	public function tambah_kamar_saved()
+	{
 		$this->kamar_list();
 	}
 
-	public function ubah_kamar_form(){
-        $id = $this->uri->segment(3);
+	public function ubah_kamar_form()
+	{
+		$id = $this->uri->segment(3);
 		$data['kamar'] = $this->admin_model->fetch_kamar_single($id);
-		
+
 		$this->load->view('.header.php');
 		$this->load->view('admin/.nav-admin.php');
 		$this->load->view('admin/kamar/ubah_kamar_form.php', $data);
 		$this->load->view('.footer.php');
-
 	}
 
-	public function ubah_kamar_save(){
-		if(empty($this->input->post('checkgambar'))){
+	public function ubah_kamar_save()
+	{
+		if (empty($this->input->post('checkgambar'))) {
 
 			$data = array(
-				'idkamar'=>$this->input->post('idkamar'),
-				'tipe'=>$this->input->post('tipe'),
-				'jumlah'=>$this->input->post('jumlah'),
-				'harga'=>$this->input->post('harga'),
+				'idkamar' => $this->input->post('idkamar'),
+				'tipe' => $this->input->post('tipe'),
+				'jumlah' => $this->input->post('jumlah'),
+				'harga' => $this->input->post('harga'),
 			);
 			$this->admin_model->update_kamar($data);
 			redirect(base_url() . 'admin/ubah_kamar_saved');
-		}elseif(empty($this->input->post('checkgambar'))){
+		} elseif (empty($this->input->post('checkgambar'))) {
 			$config['file_name'] = $this->input->post('idkamar');
 			$config['upload_path'] = './uploads/admin/kamar';
 			$config['allowed_types'] = 'gif|jpg|jpeg|png';
 			$config['max_size'] = 10000;
-		
+
 			$this->load->library('upload', $config);
 			$this->upload->overwrite = true;
-			
-			if ( ! $this->upload->do_upload('gambar')){
+
+			if (!$this->upload->do_upload('gambar')) {
 				$error = array('error' => $this->upload->display_errors());
 				print_r($error);
 				// redirect(base_url() . "tamu_kamar/pembayaran_form/" . $this->input->post("idkamar"));
-			}else{
+			} else {
 				$data = array(
-					'idkamar'=>$this->input->post('idkamar'),
-					'tipe'=>$this->input->post('tipe'),
-					'jumlah'=>$this->input->post('jumlah'),
-					'harga'=>$this->input->post('harga'),
-					'gambar'=>$this->upload->data('file_name'),
+					'idkamar' => $this->input->post('idkamar'),
+					'tipe' => $this->input->post('tipe'),
+					'jumlah' => $this->input->post('jumlah'),
+					'harga' => $this->input->post('harga'),
+					'gambar' => $this->upload->data('file_name'),
 				);
 				$this->admin_model->update_kamar($data);
 				redirect(base_url() . 'admin/ubah_kamar_saved');
 			}
 		}
-        
-		
 	}
 
-	public function ubah_kamar_saved(){
+	public function ubah_kamar_saved()
+	{
 		$this->kamar_list();
 	}
 
-	public function hapus_kamar(){
+	public function hapus_kamar()
+	{
 		$id = $this->uri->segment(3);
-		
+
 		$this->admin_model->delete_kamar($id);
-        redirect(base_url() . 'admin/terhapus_kamar');
+		redirect(base_url() . 'admin/terhapus_kamar');
 	}
 
-	public function terhapus_kamar(){
+	public function terhapus_kamar()
+	{
 		$this->kamar_list();
 	}
 
 	//tamu
-	public function tamu_list(){
+	public function tamu_list()
+	{
 		$config['base_url'] = site_url('admin/tamu_list');
 		$config['total_rows'] = $this->db->count_all('tamu');
 		$config['per_page'] = 5;
@@ -200,38 +233,39 @@ class Admin extends CI_Controller {
 		$config['num_links'] = floor($choice);
 
 		$config['first_link']       = 'First';
-        $config['last_link']        = 'Last';
-        $config['next_link']        = 'Next';
-        $config['prev_link']        = 'Prev';
-        $config['full_tag_open']    = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center">';
-        $config['full_tag_close']   = '</ul></nav></div>';
-        $config['num_tag_open']     = '<li class="page-item"><span class="page-link">';
-        $config['num_tag_close']    = '</span></li>';
-        $config['cur_tag_open']     = '<li class="page-item active"><span class="page-link">';
-        $config['cur_tag_close']    = '<span class="sr-only">(current)</span></span></li>';
-        $config['next_tag_open']    = '<li class="page-item"><span class="page-link">';
-        $config['next_tagl_close']  = '<span aria-hidden="true">&raquo;</span></span></li>';
-        $config['prev_tag_open']    = '<li class="page-item"><span class="page-link">';
-        $config['prev_tagl_close']  = '</span>Next</li>';
-        $config['first_tag_open']   = '<li class="page-item"><span class="page-link">';
-        $config['first_tagl_close'] = '</span></li>';
-        $config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
+		$config['last_link']        = 'Last';
+		$config['next_link']        = 'Next';
+		$config['prev_link']        = 'Prev';
+		$config['full_tag_open']    = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center">';
+		$config['full_tag_close']   = '</ul></nav></div>';
+		$config['num_tag_open']     = '<li class="page-item"><span class="page-link">';
+		$config['num_tag_close']    = '</span></li>';
+		$config['cur_tag_open']     = '<li class="page-item active"><span class="page-link">';
+		$config['cur_tag_close']    = '<span class="sr-only">(current)</span></span></li>';
+		$config['next_tag_open']    = '<li class="page-item"><span class="page-link">';
+		$config['next_tagl_close']  = '<span aria-hidden="true">&raquo;</span></span></li>';
+		$config['prev_tag_open']    = '<li class="page-item"><span class="page-link">';
+		$config['prev_tagl_close']  = '</span>Next</li>';
+		$config['first_tag_open']   = '<li class="page-item"><span class="page-link">';
+		$config['first_tagl_close'] = '</span></li>';
+		$config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
 		$config['last_tagl_close']  = '</span></li>';
-		
+
 		$this->pagination->initialize($config);
 		$data['page'] = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
 
 		$data['tamus'] = $this->admin_model->fetch_tamu_perpage($config['per_page'], $data['page']);
 
 		$data['pagination'] = $this->pagination->create_links();
-		
+
 		$this->load->view('.header.php');
 		$this->load->view('admin/.nav-admin.php');
 		$this->load->view('admin/tamu/index.php', $data);
 		$this->load->view('.footer.php');
 	}
 
-	public function pemesanan_list(){
+	public function pemesanan_list()
+	{
 
 		$config['base_url'] = site_url('admin/pemesanan_list');
 		$config['total_rows'] = $this->db->count_all('pemesanan');
@@ -241,24 +275,24 @@ class Admin extends CI_Controller {
 		$config['num_links'] = floor($choice);
 
 		$config['first_link']       = 'First';
-        $config['last_link']        = 'Last';
-        $config['next_link']        = 'Next';
-        $config['prev_link']        = 'Prev';
-        $config['full_tag_open']    = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center">';
-        $config['full_tag_close']   = '</ul></nav></div>';
-        $config['num_tag_open']     = '<li class="page-item"><span class="page-link">';
-        $config['num_tag_close']    = '</span></li>';
-        $config['cur_tag_open']     = '<li class="page-item active"><span class="page-link">';
-        $config['cur_tag_close']    = '<span class="sr-only">(current)</span></span></li>';
-        $config['next_tag_open']    = '<li class="page-item"><span class="page-link">';
-        $config['next_tagl_close']  = '<span aria-hidden="true">&raquo;</span></span></li>';
-        $config['prev_tag_open']    = '<li class="page-item"><span class="page-link">';
-        $config['prev_tagl_close']  = '</span>Next</li>';
-        $config['first_tag_open']   = '<li class="page-item"><span class="page-link">';
-        $config['first_tagl_close'] = '</span></li>';
-        $config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
+		$config['last_link']        = 'Last';
+		$config['next_link']        = 'Next';
+		$config['prev_link']        = 'Prev';
+		$config['full_tag_open']    = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center">';
+		$config['full_tag_close']   = '</ul></nav></div>';
+		$config['num_tag_open']     = '<li class="page-item"><span class="page-link">';
+		$config['num_tag_close']    = '</span></li>';
+		$config['cur_tag_open']     = '<li class="page-item active"><span class="page-link">';
+		$config['cur_tag_close']    = '<span class="sr-only">(current)</span></span></li>';
+		$config['next_tag_open']    = '<li class="page-item"><span class="page-link">';
+		$config['next_tagl_close']  = '<span aria-hidden="true">&raquo;</span></span></li>';
+		$config['prev_tag_open']    = '<li class="page-item"><span class="page-link">';
+		$config['prev_tagl_close']  = '</span>Next</li>';
+		$config['first_tag_open']   = '<li class="page-item"><span class="page-link">';
+		$config['first_tagl_close'] = '</span></li>';
+		$config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
 		$config['last_tagl_close']  = '</span></li>';
-		
+
 		$this->pagination->initialize($config);
 		$data['page'] = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
 
@@ -270,21 +304,22 @@ class Admin extends CI_Controller {
 		$this->load->view('admin/.nav-admin.php');
 		$this->load->view('admin/pemesanan/index.php', $data);
 		$this->load->view('.footer.php');
-
 	}
 
-	public function konfirmasi_pembayaran(){
+	public function konfirmasi_pembayaran()
+	{
 		$data = array(
-			'idpesan'=>$this->input->post('mid'),
-			'status'=>"Berhasil",
+			'idpesan' => $this->input->post('mid'),
+			'status' => "Berhasil",
 		);
-		
+
 		$this->admin_model->update_pemesanan_status($data);
-		
+
 		redirect(base_url() . 'admin/terkonfirmasi_pemesanan');
 	}
 
-	public function terkonfirmasi_pemesanan(){
+	public function terkonfirmasi_pemesanan()
+	{
 		$this->pemesanan_list();
 	}
 }

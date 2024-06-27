@@ -1,16 +1,16 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
-	const buttonDeletes = document.querySelector(".button-delete");
+	const buttonDeletes = document.querySelectorAll(".button-delete");
 
-	buttonDeletes.addEventListener("click", buttonDeleteClick, false);
+	buttonDeletes.forEach(element => element.addEventListener("click", buttonDeleteClick, false));
 
 	function buttonDeleteClick(event) {
 		event.preventDefault();
 
 		Swal.fire({
-			title: "Hapus Barang?",
-			text: "Data barang akan terhapus secara permanen!",
+			title: "Hapus?",
+			text: "Data akan terhapus secara permanen!",
 			icon: "warning",
 			showCancelButton: true,
 			confirmButtonColor: "#3085d6",
