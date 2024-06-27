@@ -31,22 +31,22 @@
 					<tbody>
 						<?php
 
-						if ($kamars->num_rows() > 0) {
-							foreach ($kamars->result() as $kamar) {
+						if (count($kamars) > 0) {
+							foreach ($kamars as $kamar) {
 						?>
 								<tr>
 									<th scope="row">
 										<div>
-											<div class="circle-image" style="background-image: url('<?= site_url() ?>uploads/admin/kamar/<?= $kamar->gambar ?>');"></div>
+											<div class="circle-image" style="background-image: url('<?= site_url() ?>uploads/admin/kamar/<?= $kamar['gambar'] ?>');"></div>
 										</div>
 									</th>
-									<td><?= $kamar->tipe ?></td>
-									<td><?= $kamar->jumlah ?></td>
-									<td><?= rupiah($kamar->harga) ?></td>
+									<td><?= $kamar['tipe'] ?></td>
+									<td><?= $kamar['jumlah'] ?></td>
+									<td><?= rupiah($kamar['harga']) ?></td>
 									<td class="">
 										<div class="d-flex gap-2">
-											<a class="btn btn-warning btn-sm" href="<?= site_url() ?>admin/ubah_kamar_form/<?= $kamar->idkamar ?>">Ubah</a>
-											<a class="btn btn-danger btn-sm button-delete" href="<?= site_url() ?>admin/hapus_kamar/<?= $kamar->idkamar ?>">Hapus</a>
+											<a class="btn btn-warning btn-sm" href="<?= site_url() ?>admin/ubah_kamar_form/<?= $kamar['idkamar'] ?>">Ubah</a>
+											<a class="btn btn-danger btn-sm button-delete" href="<?= site_url() ?>admin/hapus_kamar/<?= $kamar['idkamar'] ?>">Hapus</a>
 										</div>
 									</td>
 								</tr>
