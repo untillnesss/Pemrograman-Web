@@ -3,10 +3,20 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Login extends CI_Controller
 {
+	private $googleClient;
 
 	public function __construct()
 	{
 		parent::__construct();
+
+		$this->googleClient = new Google_Client();
+
+		$this->googleClient->setClientId('185716832220-moeii9ci220abu93oh6ed7ai9b6qr36c.apps.googleusercontent.com'); //Define your ClientID
+		$this->googleClient->setClientSecret('vfoyqku6oAnoiMZVDwGNqlKJ'); //Define your Client Secret Key
+		$this->googleClient->setRedirectUri(base_url('login/google')); //Define your Redirect Uri
+		$this->googleClient->addScope('email');
+		$this->googleClient->addScope('profile');
+
 		//load the validation library
 		// $this->load->library('form_validation');
 		// $this->load->library("pagination");
@@ -19,7 +29,10 @@ class Login extends CI_Controller
 	public function index()
 	{
 		$this->load->view('.header.php');
-		$this->load->view('login/index');
+		$this->load->view('login/index', [
+			'loginGoogleUrl' => $this->googleClient->createAuthUrl(),
+		]);
+
 		$this->load->view('.footer.php');
 	}
 
@@ -100,5 +113,63 @@ class Login extends CI_Controller
 	{
 		$this->session->unset_userdata('username');
 		redirect(base_url() . 'login');
+	}
+
+	function login_google()
+	{
+		if (!isset($_GET["code"])) redirect('login');
+
+		$token = $this->googleClient->fetchAccessTokenWithAuthCode($_GET["code"]);
+		if (isset($token["error"])) redirect('login');
+
+		$this->googleClient->setAccessToken($token['access_token']);
+		$this->session->set_userdata('access_token', $token['access_token']);
+
+		$google_service = new Google_Service_Oauth2($this->googleClient);
+		$data = $google_service->userinfo->get();
+
+		$user = $this->login_model->hasUser($data['email']);
+		if (!empty($user)) {
+			// EMAIL REGISTERED
+			if ($user->level_user == 1) {
+				$session_data = array(
+					'id' => $user->idtamu,
+					'username' => $user->username,
+					'level_user' => $user->level_user
+				);
+				$this->session->set_userdata($session_data);
+				redirect(base_url() . 'login/enter');
+			} else if ($user->level_user == 2) {
+				$session_data = array(
+					'id' => $user->idtamu,
+					'username' => $user->username,
+					'level_user' => $user->level_user
+				);
+				$this->session->set_userdata($session_data);
+				redirect(base_url() . 'login/enter');
+			} else {
+				redirect(base_url() . 'login');
+			}
+		} else {
+			// EMAIL NOTFOUND
+			$id = $this->login_model->insert_tamu([
+				'username' => $data['email'],
+				'password' => $token['access_token'],
+				'email' => $data['email'],
+				'nama' => $data['name'],
+				'alamat' => '',
+				'telepon' => '',
+				'foto' => '',
+				'level_user' => 2,
+			]);
+
+			$session_data = array(
+				'id' => $id,
+				'username' => $data['email'],
+				'level_user' => 2
+			);
+			$this->session->set_userdata($session_data);
+			redirect(base_url() . 'login/enter');
+		}
 	}
 }
