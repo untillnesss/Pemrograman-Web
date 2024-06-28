@@ -68,7 +68,10 @@ class Admin_model extends CI_Model
 
 	function fetch_tamu_perpage($limit, $start)
 	{
-		$query = $this->db->query("SELECT * FROM tamu a ORDER BY a.idtamu DESC")->result_array();
+		$query = $this
+			->db
+			->query("SELECT * FROM tamu a WHERE level_user != 1 ORDER BY a.idtamu DESC")
+			->result_array();
 
 		return $query;
 	}
@@ -82,12 +85,20 @@ class Admin_model extends CI_Model
 			'telepon',
 		];
 
+		$query = $this
+			->db
+			->from('tamu')
+			->where('level_user !=', 1)
+			->group_start();
+
 		foreach ($columns as $colum) {
-			$this->db->or_like($colum, $keyword);
+			$query->or_like($colum, $keyword);
 		}
 
-		$query = $this->db->get('tamu');
-		return $query->result_array();
+		return $query
+			->group_end()
+			->get()
+			->result_array();
 	}
 
 	function fetch_pemesanan_perpage($limit, $start)
@@ -96,8 +107,7 @@ class Admin_model extends CI_Model
         FROM pemesanan a 
         LEFT OUTER JOIN kamar b ON a.idkamar = b.idkamar
         LEFT OUTER JOIN pembayaran c ON a.idpesan = c.idpesan
-        ORDER BY a.idpesan DESC
-        LIMIT " . $start . ", " . $limit);
+        ORDER BY a.idpesan DESC")->result_array();
 
 		return $query;
 	}
