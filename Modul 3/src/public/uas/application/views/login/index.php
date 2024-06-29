@@ -24,6 +24,9 @@
 							<input type="password" name="password" id="password" class="form-control mb-4" placeholder="Masukkan password">
 						</div>
 
+						<p>admin</p>
+						<p>123</p>
+
 						<!-- Sign in button -->
 						<div class="gap-3 d-flex align-items-center">
 							<div>

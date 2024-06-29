@@ -70,9 +70,19 @@ class Admin extends CI_Controller
 
 	public function index()
 	{
+		$countKamar = $this->admin_model->countKamar();
+		$countTamu = $this->admin_model->countTamu();
+		$countPesanan = $this->admin_model->countPesanan();
+		$sumPesanan = $this->admin_model->sumPesanan();
+
 		$this->load->view('.header.php');
 		$this->load->view('admin/.nav-admin.php');
-		$this->load->view('admin/welcome.php',);
+		$this->load->view('admin/welcome.php', [
+			'kamar' => $countKamar,
+			'tamu' => $countTamu,
+			'pesanan' => $countPesanan,
+			'sumPesanan' => $sumPesanan,
+		]);
 		$this->load->view('.footer.php');
 	}
 
