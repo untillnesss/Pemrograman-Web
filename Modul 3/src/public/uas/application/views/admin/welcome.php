@@ -11,7 +11,7 @@
 					<div class="card-body d-flex">
 						<h1 class="fs-1">
 							<i class="bi bi-building"></i>
-							40
+							<?= $kamar ?>
 						</h1>
 					</div>
 					<div class="card-footer">Total Kamar</div>
@@ -21,7 +21,8 @@
 				<div class="card mb-3">
 					<div class="card-body d-flex">
 						<h1 class="fs-1">
-							<i class="bi bi-people"></i> 33
+							<i class="bi bi-people"></i> 
+							<?= $tamu ?>
 						</h1>
 					</div>
 					<div class="card-footer">Total Tamu</div>
@@ -32,7 +33,7 @@
 					<div class="card-body d-flex">
 						<h1 class="fs-1">
 							<i class="bi bi-gift"></i>
-							26
+							<?= $pesanan ?>
 						</h1>
 					</div>
 					<div class="card-footer">Total Pesanan</div>
@@ -43,7 +44,7 @@
 					<div class="card-body d-flex">
 						<h1 class="fs-1">
 							<i class="bi bi-cash"></i>
-							Rp 700.000.000
+							<?= rupiah($sumPesanan) ?>
 						</h1>
 					</div>
 					<div class="card-footer">Total Pemasukan</div>

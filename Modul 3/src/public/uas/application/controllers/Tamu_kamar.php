@@ -45,6 +45,7 @@ class Tamu_kamar extends CI_Controller
 	public function index()
 	{
 		$data['kamars'] = $this->tamu_kamar_model->fetch_data();
+		$data['pemesanan'] = $this->tamu_kamar_model->countPemesansn($this->session->userdata("id"));
 
 		$this->load->view('.header.php');
 		$this->load->view('tamu/.nav-tamu.php');

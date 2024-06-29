@@ -11,7 +11,7 @@
 					<div class="card-body d-flex">
 						<h1 class="fs-1">
 							<i class="bi bi-ticket"></i>
-							40
+							<?= $pemesanan ?>
 						</h1>
 					</div>
 					<div class="card-footer">Pesanan Kamu</div>

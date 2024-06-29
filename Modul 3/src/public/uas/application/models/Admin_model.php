@@ -8,6 +8,13 @@ class Admin_model extends CI_Model
 		return $query;
 	}
 
+	function countKamar()
+	{
+		$query = $this->db->query("SELECT COUNT(*) as count FROM kamar")->row()->count;
+
+		return $query;
+	}
+
 
 	function all_fasilitas()
 	{
@@ -173,6 +180,17 @@ class Admin_model extends CI_Model
 		return $query;
 	}
 
+	function countTamu()
+	{
+		$query = $this
+			->db
+			->query("SELECT COUNT(*) as count FROM tamu a WHERE level_user != 1 ORDER BY a.idtamu DESC")
+			->row()
+			->count;
+
+		return $query;
+	}
+
 	public function search_tamu($keyword)
 	{
 		$columns = [
@@ -209,6 +227,39 @@ class Admin_model extends CI_Model
 						ORDER BY a.idpesan DESC
 					")
 			->result_array();
+
+		return $query;
+	}
+
+	function countPesanan()
+	{
+		$query = $this
+			->db
+			->query("	SELECT COUNT(*) as count
+						FROM pemesanan a 
+						LEFT OUTER JOIN kamar b ON a.idkamar = b.idkamar
+						LEFT OUTER JOIN pembayaran c ON a.idpesan = c.idpesan
+						ORDER BY a.idpesan DESC
+					")
+			->row()
+			->count;
+
+		return $query;
+	}
+
+	function sumPesanan()
+	{
+		$query = $this
+			->db
+			->query("	SELECT SUM(a.totalbayar) as count
+						FROM pemesanan a 
+						LEFT OUTER JOIN kamar b ON a.idkamar = b.idkamar
+						LEFT OUTER JOIN pembayaran c ON a.idpesan = c.idpesan
+						WHERE a.status = 'Berhasil'
+						ORDER BY a.idpesan DESC
+					")
+			->row()
+			->count;
 
 		return $query;
 	}
