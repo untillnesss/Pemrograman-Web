@@ -45,7 +45,7 @@
 							<div>
 								<label for="exampleSelect1" class="form-label mt-2">Fasilitas</label>
 								<select class="form-select" id="exampleSelect1" multiple name="fasilitas[]" form="form-barang">
-									<?php foreach ($fasilitas as $fasilita) : ?>
+									<?php foreach ($fasilitas ?? [] as $fasilita) : ?>
 										<option value="<?= $fasilita['id'] ?>"><?= $fasilita['name'] ?></option>
 									<?php endforeach; ?>
 								</select>

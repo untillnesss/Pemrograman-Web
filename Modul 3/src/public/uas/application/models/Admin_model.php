@@ -115,7 +115,7 @@ class Admin_model extends CI_Model
 		$this->db->insert('kamar', $data);
 		$kamarId = $this->db->insert_id();
 
-		foreach ($fasilitas as $fasilita) {
+		foreach ($fasilitas ?? [] as $fasilita) {
 			$this->db->insert('kamar_fasilitas', [
 				'kamar_id' => $kamarId,
 				'fasilitas_id' => $fasilita,
@@ -139,7 +139,7 @@ class Admin_model extends CI_Model
 
 		$this->delete_fasilitas_by_kamar($kamarId);
 
-		foreach ($fasilitas as $fasilita) {
+		foreach ($fasilitas ?? [] as $fasilita) {
 			$this->db->insert('kamar_fasilitas', [
 				'kamar_id' => $kamarId,
 				'fasilitas_id' => $fasilita,
