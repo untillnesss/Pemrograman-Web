@@ -39,24 +39,25 @@ class Tamu_kamar extends CI_Controller
 		}
 
 		$this->load->model('tamu_kamar_model');
+		$this->load->model('admin_model');
 	}
 
 	public function index()
 	{
 		$data['kamars'] = $this->tamu_kamar_model->fetch_data();
-
+		
 		$this->load->view('.header.php');
 		$this->load->view('tamu/.nav-tamu.php');
 		$this->load->view('tamu/kamar/index', $data);
 		$this->load->view('.footer.php');
 	}
-
+	
 	public function pesan_form()
 	{
 		$id = $this->uri->segment(3);
-		$data['fetch_single'] = $this->tamu_kamar_model->fetch_single_data($id);
+		$data['fetch_single'] = $this->tamu_kamar_model->fetch_single_data($id)->row();
 		$data['data_user'] = $this->tamu_kamar_model->fetch_single_user($this->session->userdata("id"));
-
+		$data['fasilitas'] = $this->admin_model->kamar_fasilitas($data['fetch_single']->idkamar);
 
 		$this->load->view('.header.php');
 		$this->load->view('tamu/.nav-tamu.php');
@@ -90,6 +91,8 @@ class Tamu_kamar extends CI_Controller
 		);
 
 		$this->tamu_kamar_model->insert_pemesanan($data);
+
+		$this->session->set_flashdata('success', 'Berhasil memesan kamar, silahkan melakukan pembayaran.');
 
 		redirect(base_url() . 'tamu_kamar/riwayat_pemesanan/terpesan');
 	}

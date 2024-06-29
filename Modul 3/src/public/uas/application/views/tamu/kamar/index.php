@@ -31,7 +31,7 @@
 					$kamar_jumlah = "Tersedia " . $kamar->jumlah . " Kamar";
 			?>
 
-					<div class="col-sm">
+					<div class="col-12 col-md-4 mb-4">
 						<!-- Card Dark -->
 						<div class="card">
 

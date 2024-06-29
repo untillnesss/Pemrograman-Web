@@ -2,7 +2,7 @@
 
 class Tamu_kamar_model extends CI_Model {
     function fetch_data(){
-        $query = $this->db->query("SELECT * FROM kamar");
+        $query = $this->db->query("SELECT * FROM kamar ORDER BY idkamar DESC");
         return $query;
     }
 
