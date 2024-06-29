@@ -134,8 +134,9 @@ class Tamu_kamar extends CI_Controller
 
 		if (!$this->upload->do_upload('bukti')) {
 			$error = array('error' => $this->upload->display_errors());
-			print_r($error);
-			// redirect(base_url() . "tamu_kamar/pembayaran_form/" . $this->input->post("idkamar"));
+
+			$this->session->set_flashdata('error', 'Ada kesalahan.');
+			redirect(base_url() . 'tamu_kamar/riwayat_pemesanan/terbayar');
 		} else {
 
 			$data = array(

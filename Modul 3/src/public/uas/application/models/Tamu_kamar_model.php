@@ -48,7 +48,7 @@ class Tamu_kamar_model extends CI_Model {
 
     function insert_pembayaran($data){
         $this->db->insert('pembayaran', $data);
-        $query = $this->db->query("UPDATE pemesanan SET status = 'Berhasil' WHERE idpesan = " . $data['idpesan']);
+        $query = $this->db->query("UPDATE pemesanan SET status = 'Konfirmasi' WHERE idpesan = " . $data['idpesan']);
         return $query;
     }
 }

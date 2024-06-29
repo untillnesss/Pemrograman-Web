@@ -51,7 +51,9 @@
 									<td><?= rupiah($row['totalbayar']) ?></td>
 									<td><?= $row['status'] ?></td>
 									<th scope="row">
-										<a class="btn btn-success btn-sm" href="<?= site_url() ?>admin/konfirmasi_pembayaran_form/<?= $row['idpesan'] ?>" data-toggle="modal" data-target="#modalView" data-id="<?= $row['idpesan'] ?>" data-nama="<?= $row['nama'] ?>" data-jumlahbayaran="<?= $row['jumlah_bayaran'] ?>" data-bank="<?= $row['bank'] ?>" data-norek="<?= $row['norek'] ?>" data-namarek="<?= $row['namarek'] ?>" data-gambar="<?= site_url() ?>uploads/tamu/bukti_pembayaran/<?= $row['bukti_pembayaran'] ?>"><i class="bi bi-check2-circle"></i>Konfirmasi</a>
+										<?php if ($row['status'] == 'Konfirmasi') : ?>
+											<a class="btn btn-success btn-sm button-confirm" href="<?= site_url() ?>admin/konfirmasi_pembayaran/<?= $row['idpesan'] ?>"><i class="bi bi-check2-circle"></i>Konfirmasi</a>
+										<?php endif ?>
 									</th>
 								</tr>
 

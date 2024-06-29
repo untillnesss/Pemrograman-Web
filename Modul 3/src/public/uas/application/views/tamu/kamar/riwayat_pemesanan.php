@@ -98,10 +98,16 @@
 						</div>
 					</div>
 
-			<?php
+				<?php
 				}
-			}
-			?>
+			} else {
+				?>
+				<div class="col-12">
+					<div class="alert alert-info">
+						Belum ada reservasi
+					</div>
+				</div>
+			<?php } ?>
 
 		</div>
 	</div>

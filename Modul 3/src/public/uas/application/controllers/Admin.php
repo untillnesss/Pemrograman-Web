@@ -376,18 +376,15 @@ class Admin extends CI_Controller
 
 	public function konfirmasi_pembayaran()
 	{
+		$id = $this->uri->segment(3);
 		$data = array(
-			'idpesan' => $this->input->post('mid'),
+			'idpesan' => $id,
 			'status' => "Berhasil",
 		);
 
 		$this->admin_model->update_pemesanan_status($data);
+		$this->session->set_flashdata('success', 'Berhasil menerima pembayaran.');
 
-		redirect(base_url() . 'admin/terkonfirmasi_pemesanan');
-	}
-
-	public function terkonfirmasi_pemesanan()
-	{
-		$this->pemesanan_list();
+		redirect(base_url() . 'admin/pemesanan_list');
 	}
 }

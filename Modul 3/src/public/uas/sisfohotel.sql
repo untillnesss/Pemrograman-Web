@@ -26,16 +26,6 @@ CREATE TABLE IF NOT EXISTS `kamar` (
   PRIMARY KEY (`idkamar`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
--- membuang struktur untuk table sisfohotel.kontak
-CREATE TABLE IF NOT EXISTS `kontak` (
-  `idkontak` int(11) NOT NULL AUTO_INCREMENT,
-  `idtamu` int(11) NOT NULL,
-  `username` varchar(50) NOT NULL,
-  `pesanuser` text NOT NULL,
-  `pesanadmin` text NOT NULL,
-  PRIMARY KEY (`idkontak`)
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=latin1;
-
 -- membuang struktur untuk table sisfohotel.pembayaran
 CREATE TABLE IF NOT EXISTS `pembayaran` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -97,14 +87,6 @@ INSERT INTO `kamar` (`idkamar`, `tipe`, `jumlah`, `harga`, `gambar`) VALUES
 	(3, 'Junior Suite', 4, 700000, 'Deluxe.jpg'),
 	(4, 'Executive', 2, 1200000, 'Junior-Suite.jpg');
 /*!40000 ALTER TABLE `kamar` ENABLE KEYS */;
-
--- Membuang data untuk tabel sisfohotel.kontak: ~3 rows (lebih kurang)
-/*!40000 ALTER TABLE `kontak` DISABLE KEYS */;
-INSERT INTO `kontak` (`idkontak`, `idtamu`, `username`, `pesanuser`, `pesanadmin`) VALUES
-	(48, 10, 'ali', 'Halooo....', ''),
-	(49, 10, 'ali', '', 'Yoooo'),
-	(50, 11, 'inka', 'Tesssss...', '');
-/*!40000 ALTER TABLE `kontak` ENABLE KEYS */;
 
 -- Membuang data untuk tabel sisfohotel.pembayaran: ~13 rows (lebih kurang)
 /*!40000 ALTER TABLE `pembayaran` DISABLE KEYS */;
