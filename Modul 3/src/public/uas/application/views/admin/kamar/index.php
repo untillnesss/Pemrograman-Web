@@ -24,6 +24,7 @@
 							<th scope="col">Tipe</th>
 							<th scope="col">Jumlah</th>
 							<th scope="col">Harga</th>
+							<th scope="col">Fasilitas</th>
 							<th scope="col">Aksi</th>
 						</tr>
 					</thead>
@@ -42,6 +43,16 @@
 									<td><?= $kamar['tipe'] ?></td>
 									<td><?= $kamar['jumlah'] ?></td>
 									<td><?= rupiah($kamar['harga']) ?></td>
+									<td>
+										<ul style="padding-left: 1rem;">
+											<?php
+											$kamarId = $kamar['idkamar'];
+											foreach ($fasilitas[$kamarId] ?? [] as $fasilitas) {
+											?>
+												<li><?= $fasilitas['name'] ?></li>
+											<?php } ?>
+										</ul>
+									</td>
 									<td class="">
 										<div class="d-flex gap-2">
 											<a class="btn btn-warning btn-sm" href="<?= site_url() ?>admin/ubah_kamar_form/<?= $kamar['idkamar'] ?>">Ubah</a>

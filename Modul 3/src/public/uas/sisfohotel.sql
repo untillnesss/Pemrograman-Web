@@ -36,13 +36,6 @@ CREATE TABLE IF NOT EXISTS `kontak` (
   PRIMARY KEY (`idkontak`)
 ) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=latin1;
 
--- membuang struktur untuk table sisfohotel.login
-CREATE TABLE IF NOT EXISTS `login` (
-  `username` varchar(50) NOT NULL,
-  `password` varchar(50) NOT NULL,
-  PRIMARY KEY (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
 -- membuang struktur untuk table sisfohotel.pembayaran
 CREATE TABLE IF NOT EXISTS `pembayaran` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -112,12 +105,6 @@ INSERT INTO `kontak` (`idkontak`, `idtamu`, `username`, `pesanuser`, `pesanadmin
 	(49, 10, 'ali', '', 'Yoooo'),
 	(50, 11, 'inka', 'Tesssss...', '');
 /*!40000 ALTER TABLE `kontak` ENABLE KEYS */;
-
--- Membuang data untuk tabel sisfohotel.login: ~1 rows (lebih kurang)
-/*!40000 ALTER TABLE `login` DISABLE KEYS */;
-INSERT INTO `login` (`username`, `password`) VALUES
-	('admin', '96010b1989fdee88816b0753c8b6cfc4');
-/*!40000 ALTER TABLE `login` ENABLE KEYS */;
 
 -- Membuang data untuk tabel sisfohotel.pembayaran: ~13 rows (lebih kurang)
 /*!40000 ALTER TABLE `pembayaran` DISABLE KEYS */;

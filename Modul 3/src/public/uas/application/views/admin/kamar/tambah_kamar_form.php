@@ -35,12 +35,20 @@
 									<?php echo form_error('harga', '<small class="text-danger">', '</small>'); ?>
 								</div>
 							</div>
-							<div class="mb-3 mt-2">
+							<div class="mt-2">
 								<label for="gambar" class="form-label">Gambar</label>
 								<input class="form-control" type="file" id="gambar" name="gambar" form="form-barang" required accept="image/*">
 								<?php if (isset($error['error'])) : ?>
 									<small class="text-danger"><?= $error['error'] ?? '' ?></small>
 								<?php endif; ?>
+							</div>
+							<div>
+								<label for="exampleSelect1" class="form-label mt-2">Fasilitas</label>
+								<select class="form-select" id="exampleSelect1" multiple name="fasilitas[]" form="form-barang">
+									<?php foreach ($fasilitas as $fasilita) : ?>
+										<option value="<?= $fasilita['id'] ?>"><?= $fasilita['name'] ?></option>
+									<?php endforeach; ?>
+								</select>
 							</div>
 						</div>
 					</div>

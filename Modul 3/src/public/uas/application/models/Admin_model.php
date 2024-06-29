@@ -9,12 +9,37 @@ class Admin_model extends CI_Model
 	}
 
 
+	function all_fasilitas()
+	{
+		$query = $this->db->query("SELECT * FROM fasilitas a ORDER BY a.id DESC")->result_array();
+
+		return $query;
+	}
+
 	function fetch_kamar_perpage($limit, $start)
 	{
 		// $this->db->get('t_penduduk', $limit, $start);
 		// $query = 
 		// return $query;
-		$query = $this->db->query("SELECT * FROM kamar a ORDER BY a.idkamar DESC")->result_array();
+		$query = $this->db->query(
+			"	SELECT * 
+				FROM kamar a 
+				ORDER BY a.idkamar DESC"
+		)->result_array();
+
+		return $query;
+	}
+
+	function kamar_fasilitas($kamarId)
+	{
+		$query = $this->db->query(
+			"	SELECT kamar_fasilitas.*, fasilitas.name
+				FROM kamar_fasilitas
+				INNER JOIN fasilitas
+				ON fasilitas.id = kamar_fasilitas.fasilitas_id
+				WHERE kamar_fasilitas.kamar_id = " . $kamarId . "
+				ORDER BY id DESC"
+		)->result_array();
 
 		return $query;
 	}
@@ -66,7 +91,9 @@ class Admin_model extends CI_Model
 
 	function fetch_kamar_single($id)
 	{
-		$query = $this->db->query("SELECT * FROM kamar WHERE idkamar = " . $id);
+		$query = $this->db->query(
+			"SELECT * FROM kamar WHERE idkamar = " . $id
+		);
 
 		return $query;
 	}
@@ -76,9 +103,17 @@ class Admin_model extends CI_Model
 		$this->db->insert('fasilitas', $data);
 	}
 
-	function insert_kamar($data)
+	function insert_kamar($data, $fasilitas)
 	{
 		$this->db->insert('kamar', $data);
+		$kamarId = $this->db->insert_id();
+
+		foreach ($fasilitas as $fasilita) {
+			$this->db->insert('kamar_fasilitas', [
+				'kamar_id' => $kamarId,
+				'fasilitas_id' => $fasilita,
+			]);
+		}
 	}
 
 	function kamarid_ai()
@@ -88,10 +123,21 @@ class Admin_model extends CI_Model
 		return $query;
 	}
 
-	function update_kamar($data)
+	function update_kamar($data, $fasilitas)
 	{
-		$this->db->where('idkamar', $data['idkamar']);
+		$kamarId = $data['idkamar'];
+
+		$this->db->where('idkamar', $kamarId);
 		$this->db->update('kamar', $data);
+
+		$this->delete_fasilitas_by_kamar($kamarId);
+
+		foreach ($fasilitas as $fasilita) {
+			$this->db->insert('kamar_fasilitas', [
+				'kamar_id' => $kamarId,
+				'fasilitas_id' => $fasilita,
+			]);
+		}
 	}
 
 	function update_fasilitas($data)
@@ -111,6 +157,11 @@ class Admin_model extends CI_Model
 		$this->db->delete('fasilitas');
 	}
 
+	function delete_fasilitas_by_kamar($id)
+	{
+		$this->db->where('kamar_id', $id);
+		$this->db->delete('kamar_fasilitas');
+	}
 
 	function fetch_tamu_perpage($limit, $start)
 	{

@@ -87,6 +87,12 @@ class Admin extends CI_Controller
 
 		$data['keyword'] = $keyword;
 
+		$data['fasilitas'] = [];
+		foreach ($data['kamars'] as $kamar) {
+			$kamarId = $kamar['idkamar'];
+			$data['fasilitas'][$kamarId] = $this->admin_model->kamar_fasilitas($kamarId);
+		}
+
 		$this->load->view('.header.php');
 		$this->load->view('admin/.nav-admin.php');
 		$this->load->view('admin/kamar/index.php', $data);
@@ -120,9 +126,13 @@ class Admin extends CI_Controller
 
 	public function tambah_kamar_form()
 	{
+		$fasilitas = $this->admin_model->all_fasilitas();
+
 		$this->load->view('.header.php');
 		$this->load->view('admin/.nav-admin.php');
-		$this->load->view('admin/kamar/tambah_kamar_form.php',);
+		$this->load->view('admin/kamar/tambah_kamar_form.php', [
+			'fasilitas' => $fasilitas,
+		]);
 		$this->load->view('.footer.php');
 	}
 
@@ -147,9 +157,13 @@ class Admin extends CI_Controller
 	public function tambah_kamar_save()
 	{
 		if ($this->runValidation() == false) {
+			$fasilitas = $this->admin_model->all_fasilitas();
+
 			$this->load->view('.header.php');
 			$this->load->view('admin/.nav-admin.php');
-			$this->load->view('admin/kamar/tambah_kamar_form.php',);
+			$this->load->view('admin/kamar/tambah_kamar_form.php', [
+				'fasilitas' => $fasilitas,
+			]);
 			$this->load->view('.footer.php');
 			return;
 		}
@@ -165,11 +179,15 @@ class Admin extends CI_Controller
 		$this->upload->overwrite = true;
 
 		if (!$this->upload->do_upload('gambar')) {
+			$fasilitas = $this->admin_model->all_fasilitas();
 			$error = array('error' => $this->upload->display_errors());
 
 			$this->load->view('.header.php');
 			$this->load->view('admin/.nav-admin.php');
-			$this->load->view('admin/kamar/tambah_kamar_form.php', ['error' => $error]);
+			$this->load->view('admin/kamar/tambah_kamar_form.php', [
+				'fasilitas' => $fasilitas,
+				'error' => $error,
+			]);
 			$this->load->view('.footer.php');
 		} else {
 			$data = array(
@@ -178,7 +196,9 @@ class Admin extends CI_Controller
 				'harga' => $this->input->post('harga'),
 				'gambar' => $this->upload->data('file_name'),
 			);
-			$this->admin_model->insert_kamar($data);
+			$fasilitas = $this->input->post('fasilitas[]');
+
+			$this->admin_model->insert_kamar($data, $fasilitas);
 			$this->session->set_flashdata('success', 'Berhasil menambah kamar.');
 			redirect(base_url() . 'admin/kamar_list');
 		}
@@ -188,6 +208,12 @@ class Admin extends CI_Controller
 	{
 		$id = $this->uri->segment(3);
 		$data['kamar'] = $this->admin_model->fetch_kamar_single($id)->row();
+		$data['kamar_fasilitas'] = array_map(function ($data) {
+			return $data['fasilitas_id'];
+		}, $this->admin_model->kamar_fasilitas($id));
+
+		$fasilitas = $this->admin_model->all_fasilitas();
+		$data['fasilitas'] = $fasilitas;
 
 		$this->load->view('.header.php');
 		$this->load->view('admin/.nav-admin.php');
@@ -251,7 +277,8 @@ class Admin extends CI_Controller
 				'jumlah' => $this->input->post('jumlah'),
 				'harga' => $this->input->post('harga'),
 			);
-			$this->admin_model->update_kamar($data);
+			$fasilitas = $this->input->post('fasilitas[]');
+			$this->admin_model->update_kamar($data, $fasilitas);
 
 			$this->session->set_flashdata('success', 'Berhasil mengubah kamar.');
 			redirect(base_url() . 'admin/kamar_list');
@@ -282,7 +309,8 @@ class Admin extends CI_Controller
 					'harga' => $this->input->post('harga'),
 					'gambar' => $this->upload->data('file_name'),
 				);
-				$this->admin_model->update_kamar($data);
+				$fasilitas = $this->input->post('fasilitas[]');
+				$this->admin_model->update_kamar($data, $fasilitas);
 
 				$this->session->set_flashdata('success', 'Berhasil mengubah kamar.');
 				redirect(base_url() . 'admin/kamar_list');
