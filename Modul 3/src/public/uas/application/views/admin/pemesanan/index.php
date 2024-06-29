@@ -57,10 +57,16 @@
 									</th>
 								</tr>
 
-						<?php
+							<?php
 							}
-						}
-						?>
+						} else {
+							?>
+
+							<tr>
+								<td colspan="20">Tidak ada data</td>
+							</tr>
+
+						<?php  } ?>
 					</tbody>
 				</table>
 			</div>
