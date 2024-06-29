@@ -35,6 +35,17 @@ class Tamu_kamar_model extends CI_Model {
         return $query;
     }
 
+    function fetch_pemesanan_user_by_id($id){
+        $query = $this->db->query("SELECT * FROM pemesanan a 
+        LEFT OUTER JOIN kamar b ON a.idkamar = b.idkamar
+        WHERE idpesan = ". $id . " 
+		ORDER BY idpesan DESC
+	");
+
+        return $query;
+    }
+
+
     function insert_pembayaran($data){
         $this->db->insert('pembayaran', $data);
         $query = $this->db->query("UPDATE pemesanan SET status = 'Berhasil' WHERE idpesan = " . $data['idpesan']);

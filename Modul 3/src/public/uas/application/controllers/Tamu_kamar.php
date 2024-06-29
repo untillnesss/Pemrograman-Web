@@ -45,13 +45,13 @@ class Tamu_kamar extends CI_Controller
 	public function index()
 	{
 		$data['kamars'] = $this->tamu_kamar_model->fetch_data();
-		
+
 		$this->load->view('.header.php');
 		$this->load->view('tamu/.nav-tamu.php');
 		$this->load->view('tamu/kamar/index', $data);
 		$this->load->view('.footer.php');
 	}
-	
+
 	public function pesan_form()
 	{
 		$id = $this->uri->segment(3);
@@ -110,8 +110,10 @@ class Tamu_kamar extends CI_Controller
 
 	public function pembayaran_form()
 	{
+		$id = $this->uri->segment(3);
 
 		$data['data_user'] = $this->tamu_kamar_model->fetch_pemesanan_user($this->session->userdata("id"));
+		$data['pemesanan'] = $this->tamu_kamar_model->fetch_pemesanan_user_by_id($id)->row();
 
 		$this->load->view('.header.php');
 		$this->load->view('tamu/.nav-tamu.php');
@@ -147,9 +149,11 @@ class Tamu_kamar extends CI_Controller
 			);
 
 			if ($this->tamu_kamar_model->insert_pembayaran($data)) {
+				$this->session->set_flashdata('success', 'Bukti pembyaran sudah terkirim.');
 				redirect(base_url() . 'tamu_kamar/riwayat_pemesanan/terbayar');
 			} else {
-				print_r($data);
+				$this->session->set_flashdata('error', 'Ada kesalahan.');
+				redirect(base_url() . 'tamu_kamar/riwayat_pemesanan/terbayar');
 			}
 		}
 	}
