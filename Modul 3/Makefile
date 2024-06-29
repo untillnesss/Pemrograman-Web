@@ -1,5 +1,5 @@
 main:
-	git pull
+	# git pull
 	docker compose up --build -d --force-recreate --remove-orphans
 	# docker exec pemrograman_web-php bash -c "composer i"
 	# docker exec pemrograman_web-php bash -c "php artisan storage:link"
@@ -23,6 +23,7 @@ run-app:
 	docker compose up -d
 
 kill-app:
+down:
 	docker compose down
 
 enter-nginx-container:
