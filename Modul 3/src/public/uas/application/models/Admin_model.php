@@ -19,6 +19,13 @@ class Admin_model extends CI_Model
 		return $query;
 	}
 
+	function fetch_fasilitas_perpage($limit, $start)
+	{
+		$query = $this->db->query("SELECT * FROM fasilitas a ORDER BY a.id DESC")->result_array();
+
+		return $query;
+	}
+
 	public function search($keyword)
 	{
 		$columns = [
@@ -35,11 +42,38 @@ class Admin_model extends CI_Model
 		return $query->result_array();
 	}
 
+
+	public function search_fasilitas($keyword)
+	{
+		$columns = [
+			'name',
+		];
+
+		foreach ($columns as $colum) {
+			$this->db->or_like($colum, $keyword);
+		}
+
+		$query = $this->db->get('fasilitas');
+		return $query->result_array();
+	}
+
+	function fetch_fasilitas_single($id)
+	{
+		$query = $this->db->query("SELECT * FROM fasilitas WHERE id = " . $id);
+
+		return $query;
+	}
+
 	function fetch_kamar_single($id)
 	{
 		$query = $this->db->query("SELECT * FROM kamar WHERE idkamar = " . $id);
 
 		return $query;
+	}
+
+	function insert_fasilitas($data)
+	{
+		$this->db->insert('fasilitas', $data);
 	}
 
 	function insert_kamar($data)
@@ -60,11 +94,23 @@ class Admin_model extends CI_Model
 		$this->db->update('kamar', $data);
 	}
 
+	function update_fasilitas($data)
+	{
+		$this->db->where('id', $data['id']);
+		$this->db->update('fasilitas', $data);
+	}
 	function delete_kamar($id)
 	{
 		$this->db->where('idkamar', $id);
 		$this->db->delete('kamar');
 	}
+
+	function delete_fasilitas($id)
+	{
+		$this->db->where('id', $id);
+		$this->db->delete('fasilitas');
+	}
+
 
 	function fetch_tamu_perpage($limit, $start)
 	{
@@ -103,13 +149,44 @@ class Admin_model extends CI_Model
 
 	function fetch_pemesanan_perpage($limit, $start)
 	{
-		$query = $this->db->query("SELECT a.*, b.*, c.jumlah_bayaran, c.bank, c.norek, c.namarek, c.bukti_pembayaran 
-        FROM pemesanan a 
-        LEFT OUTER JOIN kamar b ON a.idkamar = b.idkamar
-        LEFT OUTER JOIN pembayaran c ON a.idpesan = c.idpesan
-        ORDER BY a.idpesan DESC")->result_array();
+		$query = $this
+			->db
+			->query("	SELECT a.*, b.*, c.jumlah_bayaran, c.bank, c.norek, c.namarek, c.bukti_pembayaran 
+						FROM pemesanan a 
+						LEFT OUTER JOIN kamar b ON a.idkamar = b.idkamar
+						LEFT OUTER JOIN pembayaran c ON a.idpesan = c.idpesan
+						ORDER BY a.idpesan DESC
+					")
+			->result_array();
 
 		return $query;
+	}
+
+	function fetch_pemesanan_perpage_search($keyword)
+	{
+		$query = $this
+			->db
+			->query("	SELECT a.*, b.*, c.jumlah_bayaran, c.bank, c.norek, c.namarek, c.bukti_pembayaran 
+						FROM pemesanan a 
+						LEFT OUTER JOIN kamar b ON a.idkamar = b.idkamar
+						LEFT OUTER JOIN pembayaran c ON a.idpesan = c.idpesan
+						ORDER BY a.idpesan DESC
+					");
+
+		$columns = [
+			'username',
+			'nama',
+			'alamat',
+			'telepon',
+		];
+
+		foreach ($columns as $colum) {
+			$query->or_like($colum, $keyword);
+		}
+
+		return $query
+			->get()
+			->result_array();
 	}
 
 	function update_pemesanan_status($data)

@@ -14,8 +14,8 @@
 
 						<!-- Email -->
 						<div>
-							<label for="username" class="form-label">Email</label>
-							<input type="text" name="username" id="username" class="form-control mb-4" placeholder="Masukkan email">
+							<label for="username" class="form-label">Username</label>
+							<input type="text" name="username" id="username" class="form-control mb-4" placeholder="Masukkan username">
 						</div>
 
 						<!-- Password -->

@@ -24,13 +24,21 @@ class Admin extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
+
 		$this->load->helper(array('form', 'url'));
+
 		//load the validation library
 		$this->load->library('form_validation');
 		$this->load->library("pagination");
+
 		if ($this->session->userdata('username') == '') {
 			redirect(base_url() . 'login');
 		}
+
+		if ($this->session->userdata('level_user') == 2) {
+			redirect(base_url() . 'tamu_kamar');
+		}
+
 		$this->load->model("admin_model");
 	}
 
@@ -51,6 +59,15 @@ class Admin extends CI_Controller
 		return $this->form_validation->run();
 	}
 
+	function runValidationFasilitas()
+	{
+		$this->form_validation->set_rules('name', 'Nama Fasilitas', 'required', [
+			'required' => '%s harus diisi.',
+		]);
+
+		return $this->form_validation->run();
+	}
+
 	public function index()
 	{
 		$this->load->view('.header.php');
@@ -61,7 +78,7 @@ class Admin extends CI_Controller
 
 	public function kamar_list()
 	{
-		$data['kamars'] = $this->admin_model->fetch_kamar_perpage(0,0);
+		$data['kamars'] = $this->admin_model->fetch_kamar_perpage(0, 0);
 
 		$keyword = $this->input->get('keyword'); // Ambil kata kunci pencarian dari form
 		if (!empty($keyword)) {
@@ -76,12 +93,55 @@ class Admin extends CI_Controller
 		$this->load->view('.footer.php');
 	}
 
+	public function fasilitas_list()
+	{
+		$data['kamars'] = $this->admin_model->fetch_fasilitas_perpage(0, 0);
+
+		$keyword = $this->input->get('keyword'); // Ambil kata kunci pencarian dari form
+		if (!empty($keyword)) {
+			$data['kamars'] = $this->admin_model->search_fasilitas($keyword); // Cari mahasiswa berdasarkan nama
+		}
+
+		$data['keyword'] = $keyword;
+
+		$this->load->view('.header.php');
+		$this->load->view('admin/.nav-admin.php');
+		$this->load->view('admin/fasilitas/index.php', $data);
+		$this->load->view('.footer.php');
+	}
+
+	public function tambah_fasilitas_form()
+	{
+		$this->load->view('.header.php');
+		$this->load->view('admin/.nav-admin.php');
+		$this->load->view('admin/fasilitas/tambah_form.php',);
+		$this->load->view('.footer.php');
+	}
+
 	public function tambah_kamar_form()
 	{
 		$this->load->view('.header.php');
 		$this->load->view('admin/.nav-admin.php');
 		$this->load->view('admin/kamar/tambah_kamar_form.php',);
 		$this->load->view('.footer.php');
+	}
+
+	public function tambah_fasilitas_save()
+	{
+		if ($this->runValidationFasilitas() == false) {
+			$this->load->view('.header.php');
+			$this->load->view('admin/.nav-admin.php');
+			$this->load->view('admin/fasilitas/tambah_form.php',);
+			$this->load->view('.footer.php');
+			return;
+		}
+
+		$data = array(
+			'name' => $this->input->post('name'),
+		);
+		$this->admin_model->insert_fasilitas($data);
+		$this->session->set_flashdata('success', 'Berhasil menambah fasilitas.');
+		redirect(base_url() . 'admin/fasilitas_list');
 	}
 
 	public function tambah_kamar_save()
@@ -133,6 +193,41 @@ class Admin extends CI_Controller
 		$this->load->view('admin/.nav-admin.php');
 		$this->load->view('admin/kamar/ubah_kamar_form.php', $data);
 		$this->load->view('.footer.php');
+	}
+
+	public function ubah_fasilitas_form()
+	{
+		$id = $this->uri->segment(3);
+		$data['kamar'] = $this->admin_model->fetch_fasilitas_single($id)->row();
+
+		$this->load->view('.header.php');
+		$this->load->view('admin/.nav-admin.php');
+		$this->load->view('admin/fasilitas/ubah_form.php', $data);
+		$this->load->view('.footer.php');
+	}
+
+	public function ubah_fasilitas_save()
+	{
+		$id = $this->input->post('id');
+		$data['kamar'] = $this->admin_model->fetch_fasilitas_single($id)->row();
+
+		if ($this->runValidationFasilitas() == false) {
+
+			$this->load->view('.header.php');
+			$this->load->view('admin/.nav-admin.php');
+			$this->load->view('admin/fasilitas/ubah_form.php', $data);
+			$this->load->view('.footer.php');
+			return;
+		}
+
+		$data = array(
+			'id' => $id,
+			'name' => $this->input->post('name'),
+		);
+		$this->admin_model->update_fasilitas($data);
+
+		$this->session->set_flashdata('success', 'Berhasil mengubah fasilitas.');
+		redirect(base_url() . 'admin/fasilitas_list');
 	}
 
 	public function ubah_kamar_save()
@@ -206,14 +301,24 @@ class Admin extends CI_Controller
 		redirect(base_url() . 'admin/kamar_list');
 	}
 
+	public function hapus_fasilitas()
+	{
+		$id = $this->uri->segment(3);
+
+		$this->admin_model->delete_fasilitas($id);
+
+		$this->session->set_flashdata('success', 'Berhasil menghapus fasilitas.');
+		redirect(base_url() . 'admin/fasilitas_list');
+	}
+
 	//tamu
 	public function tamu_list()
 	{
-		$data['tamus'] = $this->admin_model->fetch_tamu_perpage(0,0 );
+		$data['tamus'] = $this->admin_model->fetch_tamu_perpage(0, 0);
 
 		$keyword = $this->input->get('keyword'); // Ambil kata kunci pencarian dari form
 		if (!empty($keyword)) {
-			$data['kamars'] = $this->admin_model->search_tamu($keyword); // Cari mahasiswa berdasarkan nama
+			$data['tamus'] = $this->admin_model->search_tamu($keyword); // Cari mahasiswa berdasarkan nama
 		}
 
 		$data['keyword'] = $keyword;
@@ -226,39 +331,14 @@ class Admin extends CI_Controller
 
 	public function pemesanan_list()
 	{
+		$data['pemesanans'] = $this->admin_model->fetch_pemesanan_perpage(0, 0);
 
-		$config['base_url'] = site_url('admin/pemesanan_list');
-		$config['total_rows'] = $this->db->count_all('pemesanan');
-		$config['per_page'] = 5;
-		$config['uri_segment'] = 3;
-		$choice = $config['total_rows'] / $config['per_page'];
-		$config['num_links'] = floor($choice);
+		$keyword = $this->input->get('keyword'); // Ambil kata kunci pencarian dari form
+		if (!empty($keyword)) {
+			$data['pemesanans'] = $this->admin_model->fetch_pemesanan_perpage_search($keyword); // Cari mahasiswa berdasarkan nama
+		}
 
-		$config['first_link']       = 'First';
-		$config['last_link']        = 'Last';
-		$config['next_link']        = 'Next';
-		$config['prev_link']        = 'Prev';
-		$config['full_tag_open']    = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center">';
-		$config['full_tag_close']   = '</ul></nav></div>';
-		$config['num_tag_open']     = '<li class="page-item"><span class="page-link">';
-		$config['num_tag_close']    = '</span></li>';
-		$config['cur_tag_open']     = '<li class="page-item active"><span class="page-link">';
-		$config['cur_tag_close']    = '<span class="sr-only">(current)</span></span></li>';
-		$config['next_tag_open']    = '<li class="page-item"><span class="page-link">';
-		$config['next_tagl_close']  = '<span aria-hidden="true">&raquo;</span></span></li>';
-		$config['prev_tag_open']    = '<li class="page-item"><span class="page-link">';
-		$config['prev_tagl_close']  = '</span>Next</li>';
-		$config['first_tag_open']   = '<li class="page-item"><span class="page-link">';
-		$config['first_tagl_close'] = '</span></li>';
-		$config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
-		$config['last_tagl_close']  = '</span></li>';
-
-		$this->pagination->initialize($config);
-		$data['page'] = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-
-		$data['pemesanans'] = $this->admin_model->fetch_pemesanan_perpage($config['per_page'], $data['page']);
-
-		$data['pagination'] = $this->pagination->create_links();
+		$data['keyword'] = $keyword;
 
 		$this->load->view('.header.php');
 		$this->load->view('admin/.nav-admin.php');

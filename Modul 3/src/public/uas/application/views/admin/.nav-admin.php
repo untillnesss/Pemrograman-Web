@@ -19,13 +19,16 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/GlobalConfig.php';
 						</a>
 					</li>
 					<li class="nav-item">
+						<a class="nav-link <?= str_contains(current_url(), '/uas/admin/fasilitas_list') ? 'active' : '' ?>" href="<?= site_url() ?>admin/fasilitas_list">Fasilitas</a>
+					</li>
+					<li class="nav-item">
 						<a class="nav-link <?= str_contains(current_url(), '/uas/admin/kamar_list') ? 'active' : '' ?>" href="<?= site_url() ?>admin/kamar_list">Kamar</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link <?= str_contains(current_url(), '/uas/admin/tamu_list') ? 'active' : '' ?>" href="<?= site_url() ?>admin/tamu_list">Tamu</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link <?= str_contains(current_url(), '/uas/admin/pemesanan_list') ? 'active' : '' ?>" href="<?= site_url() ?>admin/pemesanan_list">Pemesanan</a>
+						<a class="nav-link <?= str_contains(current_url(), '/uas/admin/pemesanan_list') ? 'active' : '' ?>" href="<?= site_url() ?>admin/pemesanan_list">Reservasi</a>
 					</li>
 				</ul>
 			</div>
