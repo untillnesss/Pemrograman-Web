@@ -7,7 +7,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/GlobalConfig.php';
 <header>
 	<nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
 		<div class="container">
-			<a class="navbar-brand" href="#">Sihooo - Sistem Hotel</a>
+			<a class="navbar-brand" href="#">68-Sihooo - Sistem Hotel</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>

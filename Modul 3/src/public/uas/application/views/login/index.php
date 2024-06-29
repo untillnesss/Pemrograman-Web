@@ -9,7 +9,7 @@
 						<h1 class="fs-1">
 							<i class="bi bi-house-heart"></i>
 						</h1>
-						<p class="h2 mb-2">Login Sihooo</p>
+						<p class="h2 mb-2">Login 68-Sihooo</p>
 						<p class="h4 mb-4">Sistem Hoootel</p>
 
 						<!-- Email -->
