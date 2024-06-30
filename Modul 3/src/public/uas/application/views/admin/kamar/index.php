@@ -47,9 +47,9 @@
 										<ul style="padding-left: 1rem;">
 											<?php
 											$kamarId = $kamar['idkamar'];
-											foreach ($fasilitas[$kamarId] ?? [] as $fasilitas) {
+											foreach ($fasilitas[$kamarId] ?? [] as $fasilitasKamar) {
 											?>
-												<li><?= $fasilitas['name'] ?></li>
+												<li><?= $fasilitasKamar['name'] ?></li>
 											<?php } ?>
 										</ul>
 									</td>
