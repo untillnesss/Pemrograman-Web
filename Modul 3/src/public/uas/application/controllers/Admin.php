@@ -384,6 +384,20 @@ class Admin extends CI_Controller
 		$this->load->view('.footer.php');
 	}
 
+	public function pemesanan_detail()
+	{
+		$id = $this->uri->segment(3);
+		$data['pemesanan'] = $this->admin_model->fetch_pemesanan_by_id($id);
+
+		// dd($data);
+
+		$this->load->view('.header.php');
+		$this->load->view('admin/.nav-admin.php');
+		$this->load->view('admin/pemesanan/detail.php', $data);
+		$this->load->view('.footer.php');
+	}
+
+
 	public function konfirmasi_pembayaran()
 	{
 		$id = $this->uri->segment(3);

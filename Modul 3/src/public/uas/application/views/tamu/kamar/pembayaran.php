@@ -45,7 +45,7 @@
 						Konfirmasi Pembayaran
 					</div>
 
-					<div class="card-body px-lg-5 mt-4 pt-0">
+					<div class="card-body">
 						<?php
 
 						if (isset($data_user)) {

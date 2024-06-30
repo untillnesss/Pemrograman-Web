@@ -16,7 +16,7 @@
 
 					<div class="col-4">
 						<!-- Card Dark -->
-						<div class="card">
+						<div class="card mb-3">
 							<!-- Card image -->
 							<div class="view overlay">
 								<div style="

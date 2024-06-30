@@ -28,7 +28,7 @@
 							<th scope="col">Tanggal Check-out</th>
 							<th scope="col">Total Bayar</th>
 							<th scope="col">Status</th>
-							<th scope="col">Aksi</th>
+							<th scope="col" style="min-width: 60px;">Aksi</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -49,12 +49,16 @@
 									<td><?= formatDate($tanggal_masuk) ?></td>
 									<td><?= formatDate($tanggal_keluar) ?></td>
 									<td><?= rupiah($row['totalbayar']) ?></td>
-									<td><?= $row['status'] ?></td>
-									<th scope="row">
+									<td>
+										<p>
+											<?= $row['status'] ?>
+										</p>
+									</td>
+									<td>
 										<?php if ($row['status'] == 'Konfirmasi') : ?>
-											<a class="btn btn-success btn-sm button-confirm" href="<?= site_url() ?>admin/konfirmasi_pembayaran/<?= $row['idpesan'] ?>"><i class="bi bi-check2-circle"></i>Konfirmasi</a>
+											<a class="btn btn-success btn-sm" href="<?= site_url() ?>admin/pemesanan_detail/<?= $row['idpesan'] ?>">Lihat</a>
 										<?php endif ?>
-									</th>
+									</td>
 								</tr>
 
 							<?php

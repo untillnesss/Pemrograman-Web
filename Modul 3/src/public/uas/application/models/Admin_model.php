@@ -231,6 +231,22 @@ class Admin_model extends CI_Model
 		return $query;
 	}
 
+	function fetch_pemesanan_by_id($id)
+	{
+		$query = $this
+			->db
+			->query("	SELECT a.*, b.*, c.jumlah_bayaran, c.bank, c.norek, c.namarek, c.bukti_pembayaran 
+						FROM pemesanan a 
+						LEFT OUTER JOIN kamar b ON a.idkamar = b.idkamar
+						LEFT OUTER JOIN pembayaran c ON a.idpesan = c.idpesan
+						WHERE a.idpesan = " . $id . "
+						ORDER BY a.idpesan DESC
+					")
+			->row();
+
+		return $query;
+	}
+
 	function countPesanan()
 	{
 		$query = $this

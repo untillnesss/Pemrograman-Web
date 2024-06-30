@@ -51,7 +51,7 @@
 							Bio Data Pemesanan
 						</div>
 						<!--Card content-->
-						<div class="card-body px-lg-5 mt-4 pt-0">
+						<div class="card-body">
 							<!-- Default form contact -->
 							<form class="" method="post" action="<?= site_url() ?>Tamu_kamar/pesan_save">
 
