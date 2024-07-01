@@ -9,6 +9,10 @@ class Login extends CI_Controller
 	{
 		parent::__construct();
 
+		if ($this->session->userdata('username') != '') {
+			redirect(base_url() . 'admin');
+		}
+
 		$this->googleClient = new Google_Client();
 
 		$this->googleClient->setClientId('185716832220-moeii9ci220abu93oh6ed7ai9b6qr36c.apps.googleusercontent.com'); //Define your ClientID
